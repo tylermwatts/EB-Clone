@@ -9,6 +9,8 @@ public class CharacterMover : MonoBehaviour
 
 	private Vector3 targetPosition;
 	private Animator bodyAnimator;
+	private Vector2 lastDirection;
+	private bool isMoving;
 
 	void Start () 
 	{
@@ -29,12 +31,28 @@ public class CharacterMover : MonoBehaviour
 	{
 		UpdateTarget();
 		MoveToTarget();
-		SetAnimator();
+		CheckIfMoving();
 	}
 
-    private void SetAnimator()
+    private void CheckIfMoving()
     {
-        bodyAnimator.SetFloat("X", Input.GetAxis("Horizontal"));
+		isMoving = false;
+        float horiz = Input.GetAxis("Horizontal");
+		float vert = Input.GetAxis("Vertical");
+		if (horiz < 0 || horiz > 0 || vert < 0 || vert > 0){
+			isMoving = true;
+			lastDirection = targetPosition - transform.position;
+		}
+    }
+
+    private void WalkingAnimation()
+    {
+		bodyAnimator.SetFloat("XSpeed", targetPosition.x - transform.position.x);
+		bodyAnimator.SetFloat("YSpeed", targetPosition.y - transform.position.y);
+		bodyAnimator.SetFloat("LastX", lastDirection.x);
+		bodyAnimator.SetFloat("LastY", lastDirection.y);
+
+		bodyAnimator.SetBool("IsMoving", isMoving);
     }
 
     private void UpdateTarget()
@@ -95,7 +113,7 @@ public class CharacterMover : MonoBehaviour
 			transform.position, 
 			targetPosition, 
 			playerSpeed * Time.deltaTime);
+			WalkingAnimation();
     }
-
 
 }
