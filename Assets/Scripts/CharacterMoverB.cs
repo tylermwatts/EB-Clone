@@ -30,37 +30,38 @@ public class CharacterMoverB : MonoBehaviour
 		UpdateTarget();
 		MoveToTarget();
 		Animate();
-		Debug.Log(bodyAnimator.GetFloat("X"));
+		//Debug.Log(bodyAnimator.GetInteger("horizontalMovement"));
 	}
 
     private void Animate()
     {
-		if (IsMoving())
+		var xDistanceToTarget = targetPosition.x - transform.position.x;
+		var yDistanceToTarget = targetPosition.y - transform.position.y;
+		if (xDistanceToTarget > 0 || Input.GetAxis("Horizontal") == 1)
 		{
-			if (Mathf.Abs(targetPosition.x - transform.position.x) > Mathf.Abs(targetPosition.y - transform.position.y) ||
-				Mathf.Abs(Input.GetAxis("Horizontal")) > Mathf.Abs(Input.GetAxis("Vertical")))
-			{
-				bodyAnimator.SetFloat("X", targetPosition.x - transform.position.x);
-				bodyAnimator.SetFloat("Y", 0);
-			}
-			else
-			{
-				bodyAnimator.SetFloat("X", 0);
-				bodyAnimator.SetFloat("Y", targetPosition.y - transform.position.y);
-			}
+			bodyAnimator.SetInteger("horizontalMovement", 1);
+			bodyAnimator.SetInteger("verticalMovement", 0);
 		}
-		else
+		else if (xDistanceToTarget < 0 || Input.GetAxis("Horizontal") == -1)
 		{
-			bodyAnimator.SetFloat("X", 0);
-			bodyAnimator.SetFloat("Y", 0);
+			bodyAnimator.SetInteger("horizontalMovement", -1);
+			bodyAnimator.SetInteger("verticalMovement", 0);
 		}
-    }
-
-    private bool IsMoving()
-    {
-        return transform.position != targetPosition || 
-			Input.GetAxis("Horizontal") != 0 || 
-			Input.GetAxis("Vertical") != 0;
+		else if (yDistanceToTarget > 0 || Input.GetAxis("Vertical") == 1)
+		{
+			bodyAnimator.SetInteger("horizontalMovement", 0);
+			bodyAnimator.SetInteger("verticalMovement", 1);
+		}
+		else if (yDistanceToTarget < 0 || Input.GetAxis("Vertical") == -1)
+		{
+			bodyAnimator.SetInteger("horizontalMovement", 0);
+			bodyAnimator.SetInteger("verticalMovement", -1);
+		}
+		else 
+		{
+			bodyAnimator.SetInteger("horizontalMovement", 0);
+			bodyAnimator.SetInteger("verticalMovement", 0);
+		}
     }
 
     private void UpdateTarget()
