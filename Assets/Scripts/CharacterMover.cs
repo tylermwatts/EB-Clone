@@ -9,8 +9,6 @@ public class CharacterMover : MonoBehaviour
 
 	private Vector3 targetPosition;
 	private Animator bodyAnimator;
-	private Vector2 lastDirection;
-	private bool isMoving;
 
 	void Start () 
 	{
@@ -31,28 +29,39 @@ public class CharacterMover : MonoBehaviour
 	{
 		UpdateTarget();
 		MoveToTarget();
-		CheckIfMoving();
+		Animate();
+		//Debug.Log(bodyAnimator.GetInteger("horizontalMovement"));
 	}
 
-    private void CheckIfMoving()
+    private void Animate()
     {
-		isMoving = false;
-        float horiz = Input.GetAxis("Horizontal");
-		float vert = Input.GetAxis("Vertical");
-		if (horiz < 0 || horiz > 0 || vert < 0 || vert > 0){
-			isMoving = true;
-			lastDirection = targetPosition - transform.position;
+		var xDistanceToTarget = targetPosition.x - transform.position.x;
+		var yDistanceToTarget = targetPosition.y - transform.position.y;
+		if (xDistanceToTarget > 0 || Input.GetAxis("Horizontal") == 1)
+		{
+			bodyAnimator.SetInteger("horizontalMovement", 1);
+			bodyAnimator.SetInteger("verticalMovement", 0);
 		}
-    }
-
-    private void WalkingAnimation()
-    {
-		bodyAnimator.SetFloat("XSpeed", targetPosition.x - transform.position.x);
-		bodyAnimator.SetFloat("YSpeed", targetPosition.y - transform.position.y);
-		bodyAnimator.SetFloat("LastX", lastDirection.x);
-		bodyAnimator.SetFloat("LastY", lastDirection.y);
-
-		bodyAnimator.SetBool("IsMoving", isMoving);
+		else if (xDistanceToTarget < 0 || Input.GetAxis("Horizontal") == -1)
+		{
+			bodyAnimator.SetInteger("horizontalMovement", -1);
+			bodyAnimator.SetInteger("verticalMovement", 0);
+		}
+		else if (yDistanceToTarget > 0 || Input.GetAxis("Vertical") == 1)
+		{
+			bodyAnimator.SetInteger("horizontalMovement", 0);
+			bodyAnimator.SetInteger("verticalMovement", 1);
+		}
+		else if (yDistanceToTarget < 0 || Input.GetAxis("Vertical") == -1)
+		{
+			bodyAnimator.SetInteger("horizontalMovement", 0);
+			bodyAnimator.SetInteger("verticalMovement", -1);
+		}
+		else 
+		{
+			bodyAnimator.SetInteger("horizontalMovement", 0);
+			bodyAnimator.SetInteger("verticalMovement", 0);
+		}
     }
 
     private void UpdateTarget()
@@ -113,7 +122,6 @@ public class CharacterMover : MonoBehaviour
 			transform.position, 
 			targetPosition, 
 			playerSpeed * Time.deltaTime);
-			WalkingAnimation();
     }
 
 }
