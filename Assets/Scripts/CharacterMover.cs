@@ -30,13 +30,12 @@ public class CharacterMover : MonoBehaviour
 		UpdateTarget();
 		MoveToTarget();
 		Animate();
-		//Debug.Log(bodyAnimator.GetInteger("horizontalMovement"));
 	}
 
     private void Animate()
     {
-		var xDistanceToTarget = targetPosition.x - transform.position.x;
-		var yDistanceToTarget = targetPosition.y - transform.position.y;
+		float xDistanceToTarget = targetPosition.x - transform.position.x;
+		float yDistanceToTarget = targetPosition.y - transform.position.y;
 		if (xDistanceToTarget > 0 || Input.GetAxis("Horizontal") == 1)
 		{
 			bodyAnimator.SetInteger("horizontalMovement", 1);
