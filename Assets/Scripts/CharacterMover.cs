@@ -65,10 +65,7 @@ public class CharacterMover : MonoBehaviour
 
     private void UpdateTarget()
     {
-		var potentialTarget = new Vector3(
-			targetPosition.x, 
-			targetPosition.y, 
-			targetPosition.z);
+		var potentialTarget = targetPosition;
 
         if (Input.GetAxis("Horizontal") == 1)
 		{
