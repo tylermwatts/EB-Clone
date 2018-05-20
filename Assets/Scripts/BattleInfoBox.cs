@@ -6,17 +6,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class BattleDialogBox : MonoBehaviour 
+public class BattleInfoBox : MonoBehaviour 
 {
 	[SerializeField]
 	double letterDelay = 0.01;
 
 	[SerializeField]
-	double messageDelay = 2.0;
-
-	[SerializeField]
-	[Tooltip("Actual text box object must accommodate number of lines + 1")]
-	int numberOfLinesToEnforce = 2;
+	double messageDelay = 1.0;
 
 	[SerializeField] 
 	string[] encounterPhrases = { "have encountered", "confront", "came upon" };
@@ -94,20 +90,8 @@ public class BattleDialogBox : MonoBehaviour
 		for (int i = 0; i < message.Length; i++)
 		{
 			textBox.text += message[i];
-			EnforceNumberOfLines();
 			await Task.Delay(TimeSpan.FromSeconds(letterDelay));
 		}
 		await Task.Delay(TimeSpan.FromSeconds(messageDelay));
 	}
-
-    private void EnforceNumberOfLines()
-    {
-        Canvas.ForceUpdateCanvases();
-		
-		if (textBox.cachedTextGenerator.lines.Count > numberOfLinesToEnforce)
-		{
-			int startIndexOfSecondLine = textBox.cachedTextGenerator.lines[1].startCharIdx;
-			textBox.text = textBox.text.Substring(startIndexOfSecondLine);
-		}
-    }
 }
