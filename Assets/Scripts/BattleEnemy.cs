@@ -21,6 +21,6 @@ public class BattleEnemy : MonoBehaviour, ISubmitHandler, ISelectHandler
 
     public void OnSubmit(BaseEventData eventData)
     {
-        battleManager.OnEnemySelected();
+        battleManager.OnEnemySelected(this);
     }
 }

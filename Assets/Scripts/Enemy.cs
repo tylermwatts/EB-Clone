@@ -3,5 +3,5 @@
 public class Enemy
 {
 	public string Name { get; set; }
-	public Sprite BattleSprite { get; set; }
+	public string BattleSpriteName { get; set; }
 }

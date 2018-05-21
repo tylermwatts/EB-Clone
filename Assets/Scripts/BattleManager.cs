@@ -13,6 +13,7 @@ public class BattleManager : MonoBehaviour
 
 	BattleDialogManager dialogManager;
 	Enemy[] enemies;
+	AttackType attackType;
 
 	void Start () 
 	{
@@ -22,16 +23,14 @@ public class BattleManager : MonoBehaviour
 		// For now, hardcode enemies
 		enemies = new Enemy[] 
 		{ 
-			new Enemy { Name = "Andrew", BattleSprite = null }, 
-			new Enemy { Name = "Sleepy", BattleSprite = null }, 
-			new Enemy { Name = "Sneezy", BattleSprite = null }
+			new Enemy { Name = "Andrew", BattleSpriteName = "Starman" }, 
+			new Enemy { Name = "Sleepy", BattleSpriteName = "Starman" }, 
+			new Enemy { Name = "Sneezy", BattleSpriteName = "Starman" }
 		};
 
 		PopulateBattleField();
 		IntroduceEnemies();
 	}
-
-    
 
     private void PopulateBattleField()
     {
@@ -44,6 +43,9 @@ public class BattleManager : MonoBehaviour
 
 			var battleEnemy = battleEnemyGameObject.GetComponent<BattleEnemy>();
 			battleEnemy.Name = enemy.Name;
+
+			var image = battleEnemyGameObject.GetComponent<Image>();
+			image.overrideSprite = Resources.Load<Sprite>(enemy.BattleSpriteName);
 
 			var button = battleEnemyGameObject.GetComponent<Button>();
 			button.enabled = false;
@@ -63,6 +65,8 @@ public class BattleManager : MonoBehaviour
 
     public void OnBashSelected()
 	{
+		attackType = AttackType.Bash;
+
 		dialogManager.PromptForTargetSelection();
 		foreach (var button in battlefieldGameObject.GetComponentsInChildren<Button>())
 		{
@@ -73,8 +77,16 @@ public class BattleManager : MonoBehaviour
 		battlefieldGameObject.GetComponentsInChildren<Button>()[0].OnSelect(new BaseEventData(EventSystem.current));
 	}
 
-	public void OnEnemySelected()
+	public void OnEnemySelected(BattleEnemy battleEnemy)
 	{
-		Debug.Log("OnEnemySelected fired.");
+		switch (attackType)
+		{
+			case AttackType.Bash:
+			Debug.Log($"{battleEnemy.Name} selected for bashing.");
+			break;
+			
+			default:
+			break;
+		}
 	}
 }
