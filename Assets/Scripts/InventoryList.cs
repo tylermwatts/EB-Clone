@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryList : MonoBehaviour {
+public class InventoryList {
 
 	private List <string> inventoryItems = new List<string>();
 

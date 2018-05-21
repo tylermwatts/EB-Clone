@@ -11,7 +11,7 @@ private InventoryList invList;
 
 	[SetUp]
 	public void SetUp(){
-		invList = GameObject.FindObjectOfType<InventoryList>();
+		invList = new InventoryList();
 	}
 
     [Test]
@@ -38,12 +38,16 @@ private InventoryList invList;
 		invList.AddItem(item1);
 		invList.AddItem(item2);
 
-		Assert.AreEqual ("Yo-Yo", invList.ReturnItemAtIndex(1));
-		Assert.AreEqual ("Frying Pan", invList.ReturnItemAtIndex(2));
+		Assert.AreEqual ("Yo-Yo", invList.ReturnItemAtIndex(0));
+		Assert.AreEqual ("Frying Pan", invList.ReturnItemAtIndex(1));
 	}
 
 	[Test]
 	public void T03_Remove_An_Item(){
+		invList.AddItem("Baseball Bat");
+		invList.AddItem("Yo-Yo");
+		invList.AddItem("Frying Pan");
+
 		invList.DeleteItem("Yo-Yo");
 
 		Assert.AreEqual ("Baseball Bat", invList.ReturnItemAtIndex(0));
@@ -64,6 +68,6 @@ private InventoryList invList;
 		invList.AddItem(backstagePass);
 		invList.AddItem(atmCard);
 
-		Assert.AreEqual (7, invList.ReturnLengthOfList());
+		Assert.AreEqual (5, invList.ReturnLengthOfList());
 	}
 }
