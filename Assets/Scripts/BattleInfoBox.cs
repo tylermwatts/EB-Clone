@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +28,7 @@ public class BattleInfoBox : MonoBehaviour
 		textBox = GetComponentInChildren<Text>();
 	}
 
-	public async Task TypeEncounteredEnemies(string[] enemyNames)
+	public async Task TypeEncounteredEnemiesAsync(string[] enemyNames)
 	{
 		if (enemyNames == null || enemyNames.Length == 0)
 		{
@@ -75,17 +73,17 @@ public class BattleInfoBox : MonoBehaviour
 			}
 		}
 
-		await AutoType(message);
+		await AutoTypeAsync(message);
 	}
 
-	public async Task TypeAttackAttempt(string characterName, string attackName)
+	public async Task TypeAttackAttemptAsync(string characterName, string attackName)
 	{
 		textBox.text = string.Empty;
 		var message = $"+ {characterName} tried {attackName}.";
-		await AutoType(message);
+		await AutoTypeAsync(message);
 	}
 
-	async Task AutoType(string message)
+	async Task AutoTypeAsync(string message)
 	{
 		for (int i = 0; i < message.Length; i++)
 		{

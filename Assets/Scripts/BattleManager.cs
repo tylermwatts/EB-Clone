@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -13,9 +13,11 @@ public class BattleManager : MonoBehaviour
 
 	BattleDialogManager dialogManager;
 	Enemy[] enemies;
+	List<ICombatant> combatants = new List<ICombatant>();
 	AttackType attackType;
+	bool battleIsOver;
 
-	void Start () 
+	async void Start () 
 	{
 		dialogManager = dialogManagerGameObject.GetComponent<BattleDialogManager>();
 		
@@ -27,9 +29,13 @@ public class BattleManager : MonoBehaviour
 			new Enemy { Name = "Sleepy", BattleSpriteName = "Starman" }, 
 			new Enemy { Name = "Sneezy", BattleSpriteName = "Starman" }
 		};
+		// TODO Add friendly characters to the combatant list somehow
+		combatants.Add(new Character { Name = "Ness" });
+		combatants.AddRange(enemies);
 
 		PopulateBattleField();
-		IntroduceEnemies();
+        await IntroduceEnemiesAsync();
+		StartBattle();
 	}
 
     private void PopulateBattleField()
@@ -52,7 +58,7 @@ public class BattleManager : MonoBehaviour
 		}
     }
 
-	private void IntroduceEnemies()
+	private async Task IntroduceEnemiesAsync()
     {
 		var enemyNames = new List<string>();
         foreach (var enemy in enemies)
@@ -60,7 +66,18 @@ public class BattleManager : MonoBehaviour
 			enemyNames.Add(enemy.Name);
 		}
 
-		dialogManager.IntroduceEnemies(enemyNames.ToArray());
+		await dialogManager.IntroduceEnemiesAsync(enemyNames.ToArray());
+    }
+
+	private void StartBattle()
+    {
+		SortCombatantsByAttackOrder();
+		dialogManager.PromptForCharacterAction(combatants.FirstOrDefault(c => c is Character)?.Name);
+    }
+
+    private void SortCombatantsByAttackOrder()
+    {
+        combatants.OrderBy(c => c.Speed);
     }
 
     public void OnBashSelected()

@@ -1,35 +1,38 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BattleDialogManager : MonoBehaviour 
 {
-	public GameObject dialogBoxGameObject;
-	public GameObject battleMenuGameObject;
-	public GameObject targetSelectionBoxGameObject;
-
-	private BattleInfoBox battleInfoBox;
+	[SerializeField] GameObject battleInfoBoxGameObject;
+	[SerializeField] GameObject battleMenuGameObject;
+	[SerializeField] GameObject targetSelectionBoxGameObject;
+	[SerializeField] Text characterNameText;
+	BattleInfoBox battleInfoBox;
 
     void Start()
     {
+		battleInfoBox = battleInfoBoxGameObject.GetComponent<BattleInfoBox>();
+		
 		// Reset these game objects to the appropriate state for the start of the scene
         battleMenuGameObject.SetActive(false);
-		dialogBoxGameObject.SetActive(true);
+		battleInfoBoxGameObject.SetActive(true);
 		targetSelectionBoxGameObject.SetActive(false);
-    }
+	}
 
-	public async void IntroduceEnemies(string[] enemyNames)
+	public async Task IntroduceEnemiesAsync(string[] enemyNames)
 	{
 		battleMenuGameObject.SetActive(false);
-		dialogBoxGameObject.SetActive(true);
+		battleInfoBoxGameObject.SetActive(true);
 
-        battleInfoBox = dialogBoxGameObject.GetComponent<BattleInfoBox>();
-		await battleInfoBox.TypeEncounteredEnemies(enemyNames);
+		await battleInfoBox.TypeEncounteredEnemiesAsync(enemyNames);
+	}
 
-		dialogBoxGameObject.SetActive(false);
+	public void PromptForCharacterAction(string characterName)
+	{
+		battleInfoBoxGameObject.SetActive(false);
 		battleMenuGameObject.SetActive(true);
+		characterNameText.text = characterName;
 	}
 
 	public void PromptForTargetSelection()
