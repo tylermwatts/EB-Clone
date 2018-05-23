@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStats : MonoBehaviour {
+public class CharacterInfo : MonoBehaviour {
 
 	public List <Item> inventoryList = new List<Item>();
 	public CharacterName characterName;
@@ -19,18 +19,21 @@ public class CharacterStats : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		// var item = new Item	{ ItemType = ItemType.Arms,	ItemName = "Cheap Bracelet"	};
+		// Testing adding items to inventory
+
+		Item item0 = new Item { ItemType = ItemType.Arms, ItemName = "Cheap Bracelet" };
 		Item item1 = new Item { ItemType = ItemType.Consumable, ItemName = "Bread Roll", RecoversHP = 8 };
 		Item item2 = new Item { ItemType = ItemType.Reusable, ItemName = "For Sale Sign" };
 		Item item3 = new Item { ItemType = ItemType.Weapon, ItemName = "Baseball Bat" };
 
+		inventoryList.Add(item0);
 		inventoryList.Add(item1);
 		inventoryList.Add(item2);
 		inventoryList.Add(item3);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void PutItemInInventory(Item item){
+		inventoryList.Add(item);
 	}
+
 }

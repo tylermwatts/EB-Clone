@@ -18,6 +18,10 @@ public class PopupMenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!menuIsOpen){
+			popUpMenu.SetActive(false);
+			invMenu.SetActive(false);
+		}
 		if(Input.GetKeyDown(KeyCode.M)){
 			menuIsOpen = !menuIsOpen;
 			popUpMenu.SetActive(!popUpMenu.activeSelf);
