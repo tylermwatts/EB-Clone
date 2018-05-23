@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Item {
 
-	public string ItemName{get;set;}
-	public int RecoversHP{get;set;}
-	public bool IsReusable{get;set;}
+	public string ItemName {get;set;}
+	public int RecoversHP {get;set;}
+	
+	public ItemType ItemType {get;set;}
 }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CharacterStats : MonoBehaviour {
 
-	public List <string> inventoryList;
+	public List <Item> inventoryList = new List<Item>();
+	public CharacterName characterName;
 
 	// 1 IQ point = 5 PP
 	// Guts = critical hit chance
@@ -14,11 +15,18 @@ public class CharacterStats : MonoBehaviour {
 	// Offense = damage dealt
 	// Defense = damage reduction from PHYSICAL sources. Does not affect damage from PSI.
 	private int iq, guts, luck, vitality, speed, offense, defense;
-	private int characterLevel, nextLevel, exp, hp, pp;
+	private int characterLevel, expToNextLevel, exp, hp, pp;
 
 	// Use this for initialization
 	void Start () {
-		
+		// var item = new Item	{ ItemType = ItemType.Arms,	ItemName = "Cheap Bracelet"	};
+		Item item1 = new Item { ItemType = ItemType.Consumable, ItemName = "Bread Roll", RecoversHP = 8 };
+		Item item2 = new Item { ItemType = ItemType.Reusable, ItemName = "For Sale Sign" };
+		Item item3 = new Item { ItemType = ItemType.Weapon, ItemName = "Baseball Bat" };
+
+		inventoryList.Add(item1);
+		inventoryList.Add(item2);
+		inventoryList.Add(item3);
 	}
 	
 	// Update is called once per frame

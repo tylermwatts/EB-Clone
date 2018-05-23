@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04410489e40557e4bbc97f8db84d6b38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogBoxGameObject: {fileID: 1505885906}
+  battleInfoBoxGameObject: {fileID: 1505885906}
   battleMenuGameObject: {fileID: 1042638367}
   targetSelectionBoxGameObject: {fileID: 609176504}
   characterNameText: {fileID: 1731840894}

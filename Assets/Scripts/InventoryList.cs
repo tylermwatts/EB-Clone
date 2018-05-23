@@ -1,25 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class InventoryList {
+public class InventoryList : MonoBehaviour {
 
-	private List <string> inventoryItems = new List<string>();
+	public Text[] itemSlots = new Text[42];
 
-	public void AddItem(string item){
-		inventoryItems.Add(item);
+	private CharacterStats player_1_items;
+	private List <string> itemNames = new List<string>();
+
+
+	void Start(){
+		player_1_items = GameObject.FindObjectOfType<CharacterStats>();
 	}
 
-	public void DeleteItem(string item){
-		inventoryItems.Remove(item);
-	}
+	void Update(){
+		foreach (Item item in player_1_items.inventoryList){
+			string nameOfItem = item.ItemName;
+			itemNames.Add(nameOfItem);
+		}
+		for (int i = 0; i < player_1_items.inventoryList.Count; i++){
+				itemSlots[i].text = itemNames[i];
+			}
 
-	public string ReturnItemAtIndex(int index){
-		string listItem = inventoryItems[index];
-		return listItem;
+		for (int c = player_1_items.inventoryList.Count; c < 42; c++){
+			itemSlots[c].text = "";
+		}
 	}
-
-	public int ReturnLengthOfList(){
-		return inventoryItems.Count;
-	}
+	
 }
