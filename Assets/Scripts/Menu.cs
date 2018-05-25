@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class BattleMenu : MonoBehaviour 
+public class Menu : MonoBehaviour 
 {
 	void OnEnable () 
 	{

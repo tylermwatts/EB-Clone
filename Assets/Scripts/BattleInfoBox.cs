@@ -6,20 +6,15 @@ using Random = UnityEngine.Random;
 
 public class BattleInfoBox : MonoBehaviour 
 {
-	[SerializeField]
-	double letterDelay = 0.01;
+	[SerializeField] double letterDelayInSeconds = 0.01;
 
-	[SerializeField]
-	double messageDelay = 1.0;
+	[SerializeField] double messageDelayInSeconds = 1.0;
 
-	[SerializeField] 
-	string[] encounterPhrases = { "have encountered", "confront", "came upon" };
+	[SerializeField] string[] encounterPhrases = { "have encountered", "confront", "came upon" };
 
-	[SerializeField] 
-	string[] singleFriendPhrases = { "cohort", "friend", "buddy" };
+	[SerializeField] string[] singleFriendPhrases = { "cohort", "friend", "buddy" };
 	
-	[SerializeField] 
-	string[] pluralFriendPhrases = { "cohorts", "friends", "buddies" };
+	[SerializeField] string[] pluralFriendPhrases = { "cohorts", "friends", "buddies" };
 
 	Text textBox;
 
@@ -88,8 +83,8 @@ public class BattleInfoBox : MonoBehaviour
 		for (int i = 0; i < message.Length; i++)
 		{
 			textBox.text += message[i];
-			await Task.Delay(TimeSpan.FromSeconds(letterDelay));
+			await Task.Delay(TimeSpan.FromSeconds(letterDelayInSeconds));
 		}
-		await Task.Delay(TimeSpan.FromSeconds(messageDelay));
+		await Task.Delay(TimeSpan.FromSeconds(messageDelayInSeconds));
 	}
 }

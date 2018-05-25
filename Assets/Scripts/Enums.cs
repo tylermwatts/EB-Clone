@@ -2,4 +2,4 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AttackType { Bash };
+public enum BattleActionType { Bash, AreaOfEffect, Timed, Heal };
