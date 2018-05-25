@@ -1,4 +1,4 @@
-public enum BattleActionType { Bash, AreaOfEffect, Timed, Heal };
+﻿public enum AttackType { Bash };
 
 public enum ItemType { Weapon, Arms, Body, OtherEquippable, Reusable, Consumable };
 
