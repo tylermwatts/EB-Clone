@@ -22,8 +22,7 @@ public class Menu : MonoBehaviour
 
 	public void DeactivateButtons()
 	{
-		var buttons = GetComponentsInChildren<Button>();
-		foreach (var button in buttons)
+		foreach (var button in GetComponentsInChildren<Button>())
 		{
 			button.enabled = false;
 		}
