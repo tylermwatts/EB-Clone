@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Enemy : ICombatant
 {
@@ -8,6 +9,8 @@ public class Enemy : ICombatant
 
     public BattleAction AutoFight(IEnumerable<ICombatant> combatants)
     {
-        throw new System.NotImplementedException();
+        // TODO flesh out
+        Debug.Log("Enemy running AutoFight");
+        return new BattleAction();
     }
 }

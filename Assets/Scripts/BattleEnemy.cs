@@ -6,13 +6,15 @@ public class BattleEnemy : MonoBehaviour, ISubmitHandler, ISelectHandler
 {
 	BattleManager battleManager;
     BattleDialogManager dialogManager;
+    Battlefield battlefield;
 
     Enemy enemy { get; set; }
 
-    void Awake () 
+    void Start() 
 	{
 		battleManager = FindObjectOfType<BattleManager>();
         dialogManager = FindObjectOfType<BattleDialogManager>();
+        battlefield = GetComponentInParent<Battlefield>();
 	}
 
     public void AssignEnemy(Enemy enemy)
@@ -29,6 +31,8 @@ public class BattleEnemy : MonoBehaviour, ISubmitHandler, ISelectHandler
 
     public void OnSubmit(BaseEventData eventData)
     {
+        dialogManager.ResetBattleMenu();
+        battlefield.DeactivateBattleEnemies();
         battleManager.OnEnemySelectedForBashing(this);
     }
 }
