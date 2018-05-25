@@ -1,25 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class InventoryList {
+public class InventoryList : MonoBehaviour {
 
-	private List <string> inventoryItems = new List<string>();
+	public GameObject invButtonPrefab;
 
-	public void AddItem(string item){
-		inventoryItems.Add(item);
+	private CharacterInfo player1;
+
+	void Start(){
+		player1 = GameObject.FindObjectOfType<CharacterInfo>();
+		PopulateInventoryText();
 	}
 
-	public void DeleteItem(string item){
-		inventoryItems.Remove(item);
-	}
+	void Update()
+    {
+        
+    }
 
-	public string ReturnItemAtIndex(int index){
-		string listItem = inventoryItems[index];
-		return listItem;
-	}
-
-	public int ReturnLengthOfList(){
-		return inventoryItems.Count;
-	}
+    private void PopulateInventoryText()
+    {
+		foreach (Item item in player1.inventoryList)
+        {
+			var inventoryItem = Instantiate <GameObject>(invButtonPrefab);
+			inventoryItem.transform.SetParent(transform, false);
+			inventoryItem.transform.localScale = Vector3.one;
+			inventoryItem.GetComponentInChildren<Text>().text = item.ItemName;
+		}
+    }
 }
