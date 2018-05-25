@@ -36,4 +36,11 @@ public class CharacterInfo : MonoBehaviour {
 		inventoryList.Add(item);
 	}
 
+	public void LevelUp(){
+		if (exp >= expToNextLevel){
+			characterLevel++;
+			expToNextLevel += (exp * 2);
+		}
+	}
+
 }
