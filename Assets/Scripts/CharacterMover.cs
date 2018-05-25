@@ -9,14 +9,14 @@ public class CharacterMover : MonoBehaviour
 
 	private Vector3 targetPosition;
 	private Animator bodyAnimator;
-	private PopupMenu popUpMenu;
+	private MenuParent menuParent;
 
 	void Start () 
 	{
 		SnapToGrid();
 		targetPosition = transform.position;
 		bodyAnimator = GetComponentInParent<Animator>();
-		popUpMenu = GameObject.FindObjectOfType<PopupMenu>();
+		menuParent = GameObject.FindObjectOfType<MenuParent>();
 	}
 
     private void SnapToGrid()
@@ -29,7 +29,7 @@ public class CharacterMover : MonoBehaviour
 
     void Update () 
 	{
-		if (popUpMenu.menuIsOpen == false){
+		if (menuParent.menuIsOpen == false){
 			UpdateTarget();
 			MoveToTarget();
 			Animate();

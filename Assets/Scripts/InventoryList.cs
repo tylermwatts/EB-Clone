@@ -5,28 +5,28 @@ using UnityEngine.UI;
 
 public class InventoryList : MonoBehaviour {
 
-	public Text[] itemSlots = new Text[42];
+	public GameObject invButtonPrefab;
 
 	private CharacterInfo player1;
-	private List <string> itemNames = new List<string>();
-
 
 	void Start(){
 		player1 = GameObject.FindObjectOfType<CharacterInfo>();
+		PopulateInventoryText();
 	}
 
-	void Update(){
-		foreach (Item item in player1.inventoryList){
-			string nameOfItem = item.ItemName;
-			itemNames.Add(nameOfItem);
-		}
-		for (int i = 0; i < player1.inventoryList.Count; i++){
-				itemSlots[i].text = itemNames[i];
-			}
+	void Update()
+    {
+        
+    }
 
-		for (int c = player1.inventoryList.Count; c < 42; c++){
-			itemSlots[c].text = "";
+    private void PopulateInventoryText()
+    {
+		foreach (Item item in player1.inventoryList)
+        {
+			var inventoryItem = Instantiate <GameObject>(invButtonPrefab);
+			inventoryItem.transform.SetParent(transform, false);
+			inventoryItem.transform.localScale = Vector3.one;
+			inventoryItem.GetComponentInChildren<Text>().text = item.ItemName;
 		}
-	}
-	
+    }
 }
