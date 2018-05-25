@@ -63,10 +63,7 @@ public class BattleManager : MonoBehaviour
         battleEnemyGameObject.transform.localScale = Vector3.one;
 
 		var battleEnemy = battleEnemyGameObject.GetComponent<BattleEnemy>();
-        battleEnemy.Name = enemy.Name;
-
-		var image = battleEnemyGameObject.GetComponent<Image>();
-        image.overrideSprite = Resources.Load<Sprite>(enemy.BattleSpriteName);
+        battleEnemy.AssignEnemy(enemy);
 
 		var button = battleEnemyGameObject.GetComponent<Button>();
         button.enabled = false;
