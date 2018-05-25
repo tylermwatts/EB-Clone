@@ -9,12 +9,14 @@ public class CharacterMover : MonoBehaviour
 
 	private Vector3 targetPosition;
 	private Animator bodyAnimator;
+	private MenuParent menuParent;
 
 	void Start () 
 	{
 		SnapToGrid();
 		targetPosition = transform.position;
 		bodyAnimator = GetComponentInParent<Animator>();
+		menuParent = GameObject.FindObjectOfType<MenuParent>();
 	}
 
     private void SnapToGrid()
@@ -27,9 +29,12 @@ public class CharacterMover : MonoBehaviour
 
     void Update () 
 	{
-		UpdateTarget();
-		MoveToTarget();
-		Animate();
+		if (menuParent.menuIsOpen == false){
+			UpdateTarget();
+			MoveToTarget();
+			Animate();
+		}
+		
 	}
 
     private void Animate()
@@ -118,6 +123,7 @@ public class CharacterMover : MonoBehaviour
 			transform.position, 
 			targetPosition, 
 			playerSpeed * Time.deltaTime);
+	
     }
 
 }
