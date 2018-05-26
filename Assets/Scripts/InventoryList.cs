@@ -6,8 +6,14 @@ using UnityEngine.UI;
 public class InventoryList : MonoBehaviour {
 
 	public GameObject invButtonPrefab;
-
+	
+	private Menu menu;
 	private CharacterInfo player1;
+
+	void OnEnable(){
+		menu = GetComponent<Menu>();
+		menu.enabled = false;
+	}
 
 	void Start(){
 		player1 = GameObject.FindObjectOfType<CharacterInfo>();
@@ -28,5 +34,6 @@ public class InventoryList : MonoBehaviour {
 			inventoryItem.transform.localScale = Vector3.one;
 			inventoryItem.GetComponentInChildren<Text>().text = item.ItemName;
 		}
+		menu.enabled = true;
     }
 }
