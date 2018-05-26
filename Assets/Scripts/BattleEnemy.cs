@@ -29,10 +29,10 @@ public class BattleEnemy : MonoBehaviour, ISubmitHandler, ISelectHandler
         dialogManager.UpdateTargetText(enemy.Name);
     }
 
-    public void OnSubmit(BaseEventData eventData)
+    public async void OnSubmit(BaseEventData eventData)
     {
         dialogManager.ResetBattleMenu();
         battlefield.DeactivateBattleEnemies();
-        battleManager.OnEnemySelectedForBashing(this);
+        await battleManager.OnEnemySelectedForBashingAsync(enemy);
     }
 }

@@ -9,7 +9,7 @@ public class Enemy : ICombatant
 
     public BattleAction AutoFight(IEnumerable<ICombatant> combatants)
     {
-        // TODO flesh out
+        // TODO flesh out AutoFight
         Debug.Log("Enemy running AutoFight");
         return new BattleAction();
     }

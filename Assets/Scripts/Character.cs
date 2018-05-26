@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 public class Character : ICombatant
 {
@@ -10,15 +9,24 @@ public class Character : ICombatant
 
     public BattleAction AutoFight(IEnumerable<ICombatant> combatants)
     {
-        // TODO flesh out
-        Debug.Log("Character running AutoFight");
-        return new BattleAction();
+        // TODO use some formula to determine what action to do.
+        var enemy = combatants.OfType<Enemy>().First();
+        return Bash(enemy);
     }
 
-    public BattleAction Bash()
+    public BattleAction Bash(Enemy enemy)
     {
-        // TODO flesh out
-        Debug.Log("Character running Bash");
-        return new BattleAction();
+        var battleAction =  new BattleAction
+        {
+            Performer = this,
+            Target = enemy,
+            BattleActionType = BattleActionType.Bash,
+            // The following is for testing purposes
+            Successful = true,
+            ActionName = "Bash",
+            Magnitude = 10
+        };
+
+        return battleAction;
     }
 }

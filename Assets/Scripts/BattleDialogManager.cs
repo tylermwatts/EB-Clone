@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,5 +54,17 @@ public class BattleDialogManager : MonoBehaviour
 	{
 		var text = targetSelectionBoxGameObject.GetComponentInChildren<Text>();
 		text.text = $"To {enemyName}";
+	}
+
+	public async Task DisplayBattleInfoAsync(IEnumerable<BattleAction> battleActions)
+	{
+		battleMenuGameObject.GetComponentInChildren<Menu>().DeactivateButtons();
+		battleInfoBoxGameObject.SetActive(true);
+		foreach (var battleAction in battleActions)
+		{
+			await battleInfoBox.TypeBattleActionAttemptAsync(battleAction);
+			// TODO kick off animation for result
+			await battleInfoBox.TypeBattleActionResultAsync(battleAction);
+		}
 	}
 }
