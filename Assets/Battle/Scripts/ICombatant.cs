@@ -2,7 +2,8 @@
 
 public interface ICombatant 
 {
-	int Speed { get; set; }
-	string Name { get; set; }
-	BattleAction AutoFight(IEnumerable<ICombatant> combatants);
+    int Speed { get; }
+    string Name { get; }
+
+    BattleAction AutoFight(IEnumerable<ICombatant> combatants);
 }

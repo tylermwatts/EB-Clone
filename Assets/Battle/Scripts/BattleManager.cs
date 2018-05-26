@@ -15,15 +15,19 @@ public class BattleManager : MonoBehaviour
 	
 	// TODO implement scenemanager through which enemies/characters could be passed to this scene from the last scene
 	// For now, hardcode enemies and characters
-	Enemy[] enemies = new Enemy[]
+	EnemyCombatant[] enemies = new EnemyCombatant[]
         {
-            new Enemy { Name = "Andrew", BattleSpriteName = "Starman" },
-            new Enemy { Name = "Sleepy", BattleSpriteName = "Starman" },
-            new Enemy { Name = "Sneezy", BattleSpriteName = "Starman" }
+            new TestEnemyCombatant(),
+            new TestEnemyCombatant(),
+            new TestEnemyCombatant()
         };
-	Character[] characters = new Character[] { new Character { Name = "Ness" }, new Character { Name = "Paula" } };
+	CharacterCombatant[] characters = new CharacterCombatant[] 
+		{ 
+			new TestCharacter(), 
+			new TestCharacter() 
+		};
 
-	IEnumerable<ICombatant> combatants;
+	List<ICombatant> combatants;
 	int characterIndex = -1;
 	List<BattleAction> battleActions = new List<BattleAction>();
 
@@ -40,10 +44,9 @@ public class BattleManager : MonoBehaviour
 
     private void ArrangeCombatants()
     {
-        var combatantsList = new List<ICombatant>();
-        combatantsList.AddRange(characters);
-        combatantsList.AddRange(enemies);
-		combatants = combatantsList.OrderBy(c => c.Speed);
+        combatants.AddRange(characters);
+        combatants.AddRange(enemies);
+		combatants = combatants.OrderBy(c => c.Speed).ToList();
     }
 
 	private async Task RunBattleAsync()
@@ -86,7 +89,7 @@ public class BattleManager : MonoBehaviour
 		dialogManager.PromptForTargetSelection();
     }
 
-	public async Task OnEnemySelectedForBashingAsync(Enemy enemy)
+	public async Task OnEnemySelectedForBashingAsync(EnemyCombatant enemy)
 	{
 		var battleAction = characters[characterIndex].Bash(enemy);
 		battleActions.Add(battleAction);
