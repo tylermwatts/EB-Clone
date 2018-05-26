@@ -10,13 +10,7 @@ public class CharacterInfo : MonoBehaviour {
 	public CharacterName characterName;
 	public ExpChart expChart;
 
-	// 1 IQ point = 5 PP
-	// Guts = critical hit chance
-	// Luck = chance to hit and dodge
-	// Vitality = determines max HP
-	// Speed = Determines who goes first in battles, also raises dodge chance
-	// Offense = damage dealt
-	// Defense = damage reduction from PHYSICAL sources. Does not affect damage from PSI.
+	// More information on character stats https://github.com/warpfox/EB-Clone/wiki/Character-Stats
 	[SerializeField] private int iq, guts, luck, vitality, speed, offense, defense;
 	[SerializeField] private int characterLevel, currentEXP, maxHP, maxPP, currentHP, currentPP;
 
@@ -49,24 +43,32 @@ public class CharacterInfo : MonoBehaviour {
 		characterLevel++;
 
 		#region Base Stats Increase
+		int tempVit = Random.Range(1,6);
+		vitality += tempVit;
+		// Text.text = $"Vitality increased by {tempVit} points!";
+		int hpToGain = (tempVit * 15);
+		maxHP += hpToGain;
+		// Text.text = $"HP increased by {hpToGain} points!";
+		
 		int tempIQ = Random.Range(1,6);
 		iq += tempIQ;
-		// Text.text = "IQ increased by " + tempIQ "points!";
-		guts += Random.Range(1,6);
+		// Text.text = $"IQ increased by {tempIQ} points!";
+		// if (!Jeff){
+		int ppToGain = (tempIQ * 5);
+		maxPP += ppToGain;
+		// Text.text = $"PP increased by {ppToGain} points!";
+		// }
+		
+		int tempGuts = Random.Range(1,6);
+		guts += tempGuts;
+		// Text.text = $"Guts increased by {tempGuts} points!";
+		
+		// Text.text etc., as above for each stat
 		luck += Random.Range(1,6);
-		vitality += Random.Range(1,6);
 		speed += Random.Range(1,6);
 		offense += Random.Range(1,6);
 		defense += Random.Range(1,6);
 		#endregion
-		
-		if (vitality % 5 == 0){
-			maxHP++;
-		}
-
-		if (iq % 5 == 0){
-			maxPP++;
-		}
 
 	}
 
