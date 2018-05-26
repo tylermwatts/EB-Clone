@@ -31,13 +31,21 @@ public class CharacterInfo : MonoBehaviour {
 	}
 
 	void Update (){
-		// if (currentEXP >= expChart.expToLevel[characterLevel - 1]){
-		// 	LevelUp();
-		// }
+		/* 	Still don't know if CharacterInfo actually needs an Update method. We can probably
+			make any changes we need to do from other scripts through public methods on this
+			script. Leaving it for now, but we may end up foregoing Update altogether.
+		*/
 	}
 
     public void PutItemInInventory(Item item){
 		inventoryList.Add(item);
+	}
+
+	public void GiveExp(int exp){
+		currentEXP += exp;
+		if (currentEXP >= expChart.expToLevel[characterLevel - 1]){
+			LevelUp();
+		}
 	}
 
 	private void LevelUp(){
@@ -139,10 +147,6 @@ public class CharacterInfo : MonoBehaviour {
 		}		
 		#endregion
 
-	}
-
-	public void GiveExp(int exp){
-		currentEXP += exp;
 	}
 
 }
