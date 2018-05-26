@@ -81,7 +81,7 @@ public class CharacterInfo : MonoBehaviour {
 		}
 		#endregion
 
-		#region Base Stats Increase
+		#region Base Stat Increases
 		// Stat gain = ((growth rate * old level) - ((stat-2) * 10)) * r/50
 		/*
 			r is given by one of the following: 
