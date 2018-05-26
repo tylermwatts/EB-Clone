@@ -4,9 +4,27 @@ using UnityEngine.EventSystems;
 
 public class Menu : MonoBehaviour 
 {
-	void OnEnable () 
+	void OnEnable() 
 	{
-		EventSystem.current.SetSelectedGameObject(GetComponentsInChildren<Button>()[0].gameObject);
-		GetComponentsInChildren<Button>()[0].OnSelect(new BaseEventData(EventSystem.current));
+		ActivateButtons();
+	}
+
+	public void ActivateButtons()
+	{
+		var buttons = GetComponentsInChildren<Button>();
+		foreach (var button in buttons)
+		{
+			button.enabled = true;
+		}
+		EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
+		buttons[0].OnSelect(new BaseEventData(EventSystem.current));
+	}
+
+	public void DeactivateButtons()
+	{
+		foreach (var button in GetComponentsInChildren<Button>())
+		{
+			button.enabled = false;
+		}
 	}
 }

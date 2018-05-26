@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System;
 
 public class BattleManager : MonoBehaviour 
 {
@@ -13,6 +10,7 @@ public class BattleManager : MonoBehaviour
 	[SerializeField] GameObject battlefieldGameObject;
 
 	BattleDialogManager dialogManager;
+	Battlefield battlefield;
 	
 	// TODO implement scenemanager through which enemies/characters could be passed to this scene from the last scene
 	// For now, hardcode enemies and characters
@@ -25,16 +23,16 @@ public class BattleManager : MonoBehaviour
 	Character[] characters = new Character[] { new Character { Name = "Ness" }, new Character { Name = "Paula" } };
 
 	IEnumerable<ICombatant> combatants;
-	BattleActionType attackType;
-	int characterIndex = 0;
+	int characterIndex = -1;
 	List<BattleAction> battleActions = new List<BattleAction>();
 
 	async void Start ()
     {
         dialogManager = dialogManagerGameObject.GetComponent<BattleDialogManager>();
+		battlefield = battlefieldGameObject.GetComponent<Battlefield>();
 
         ArrangeCombatants();
-        PopulateBattleField();
+        battlefield.PopulateBattleField(enemies);
         await dialogManager.IntroduceEnemiesAsync(enemies.Select(e => e.Name).ToArray());
 		RunBattle();
     }
@@ -47,81 +45,59 @@ public class BattleManager : MonoBehaviour
 		combatants = combatantsList.OrderBy(c => c.Speed);
     }
 
-    private void PopulateBattleField()
-    {
-        foreach (var enemy in enemies)
-        {
-            InstantiateBattleEnemy(enemy);
-        }
-    }
-
-	private void InstantiateBattleEnemy(Enemy enemy)
-    {
-        var battleEnemyGameObject = (GameObject)Instantiate(battleEnemyPrefab);
-
-        battleEnemyGameObject.transform.SetParent(battlefieldGameObject.transform, false);
-        battleEnemyGameObject.transform.localScale = Vector3.one;
-
-		var battleEnemy = battleEnemyGameObject.GetComponent<BattleEnemy>();
-        battleEnemy.Name = enemy.Name;
-
-		var image = battleEnemyGameObject.GetComponent<Image>();
-        image.overrideSprite = Resources.Load<Sprite>(enemy.BattleSpriteName);
-
-		var button = battleEnemyGameObject.GetComponent<Button>();
-        button.enabled = false;
-    }
-
 	private void RunBattle()
     {
-		characterIndex++;
+		if (BattleIsStillWaging())
+		{
+			characterIndex++;
 
-		if (characterIndex <= characters.Length)
-		{
-			dialogManager.PromptForCharacterAction(characters[characterIndex - 1].Name);
+			if (characterIndex < characters.Length)
+			{
+				dialogManager.PromptForCharacterAction(characters[characterIndex].Name);
+			}
+			else
+			{
+				DetermineEnemyActions();
+				CarryOutActions();
+				battleActions.Clear();
+				characterIndex = -1;
+				RunBattle();
+			}
 		}
-		else
-		{
-			DetermineEnemyActions();
-			CarryOutActions();
-			characterIndex = 0;
-		}
+		
+    }
+
+	// TODO Rename this and flesh it out
+    private bool BattleIsStillWaging()
+    {
+        return true;
     }
 
     private void DetermineEnemyActions()
     {
-        throw new NotImplementedException();
+        // TODO flesh out
+        Debug.Log("BattleManager running DetermineEnemyActions");
     }
 
     private void CarryOutActions()
     {
         foreach (var action in battleActions)
 		{
-
+			// TODO flesh out
+        	Debug.Log("BattleManager running CarryOutActions per action");
 		}
     }
 
     public void OnBashSelected()
     {
-        attackType = BattleActionType.Bash;
-        dialogManager.PromptForTargetSelection();
-        ActivateBattleEnemiesForSelection();
-    }
-
-    private void ActivateBattleEnemiesForSelection()
-    {
-        foreach (var button in battlefieldGameObject.GetComponentsInChildren<Button>())
-        {
-            button.enabled = true;
-        }
-
-        EventSystem.current.SetSelectedGameObject(battlefieldGameObject.GetComponentsInChildren<Button>()[0].gameObject);
-        battlefieldGameObject.GetComponentsInChildren<Button>()[0].OnSelect(new BaseEventData(EventSystem.current));
+        battlefield.ActivateBattleEnemiesForSelection();
+		dialogManager.PromptForTargetSelection();
     }
 
 	public void OnDefendSelected()
 	{
-		throw new NotImplementedException();
+		// TODO flesh out
+        Debug.Log("BattleManager running OnDefendSelected");
 	}
 
 	public void OnAutoFightSelected()
@@ -133,21 +109,14 @@ public class BattleManager : MonoBehaviour
 
 	public void OnRunAwaySelected()
 	{
-		throw new NotImplementedException(); 
+		// TODO flesh out
+        Debug.Log("BattleManager running OnRunAwaySelected");
 	}
 
     public void OnEnemySelectedForBashing(BattleEnemy battleEnemy)
 	{
-		// switch (attackType)
-		// {
-		// 	case BattleActionType.Bash:
-		// 	Debug.Log($"{battleEnemy.Name} selected for bashing.");
-		// 	break;
-			
-		// 	default:
-		// 	break;
-		// }
-
+		var battleAction = characters[characterIndex].Bash();
+		battleActions.Add(battleAction);
 		RunBattle();
 	}
 }

@@ -15,8 +15,16 @@ public class BattleDialogManager : MonoBehaviour
 		battleInfoBox = battleInfoBoxGameObject.GetComponent<BattleInfoBox>();
 		
 		// Reset these game objects to the appropriate state for the start of the scene
-        battleMenuGameObject.SetActive(false);
+		battleMenuGameObject.SetActive(false);
 		battleInfoBoxGameObject.SetActive(true);
+		targetSelectionBoxGameObject.SetActive(false);
+	}
+
+	public void ResetBattleMenu()
+	{
+		battleMenuGameObject.SetActive(true);
+		battleMenuGameObject.GetComponentInChildren<Menu>().ActivateButtons();
+		battleInfoBoxGameObject.SetActive(false);
 		targetSelectionBoxGameObject.SetActive(false);
 	}
 
@@ -37,11 +45,7 @@ public class BattleDialogManager : MonoBehaviour
 
 	public void PromptForTargetSelection()
 	{
-		foreach (var button in battleMenuGameObject.GetComponentsInChildren<Button>())
-		{
-			button.enabled = false;
-		}
-
+		battleMenuGameObject.GetComponent<Menu>().DeactivateButtons();
 		targetSelectionBoxGameObject.SetActive(true);
 	}
 

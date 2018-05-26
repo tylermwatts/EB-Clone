@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Character : ICombatant
 {
@@ -9,11 +10,15 @@ public class Character : ICombatant
 
     public BattleAction AutoFight(IEnumerable<ICombatant> combatants)
     {
-        throw new NotImplementedException();
+        // TODO flesh out
+        Debug.Log("Character running AutoFight");
+        return new BattleAction();
     }
 
     public BattleAction Bash()
     {
-        throw new NotImplementedException();
+        // TODO flesh out
+        Debug.Log("Character running Bash");
+        return new BattleAction();
     }
 }
