@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CharacterInfo : MonoBehaviour {
 
@@ -36,7 +37,7 @@ public class CharacterInfo : MonoBehaviour {
 
 	void Update (){
 		// if (currentEXP >= expChart.expToLevel[characterLevel - 1]){
-		//		LevelUp();
+		// 	LevelUp();
 		// }
 	}
 
@@ -48,13 +49,15 @@ public class CharacterInfo : MonoBehaviour {
 		characterLevel++;
 
 		#region Base Stats Increase
-		iq += UnityEngine.Random.Range(1,5);
-		guts += UnityEngine.Random.Range(1,5);
-		luck += UnityEngine.Random.Range(1,5);
-		vitality += UnityEngine.Random.Range(1,5);
-		speed += UnityEngine.Random.Range(1,5);
-		offense += UnityEngine.Random.Range(1,5);
-		defense += UnityEngine.Random.Range(1,5);
+		int tempIQ = Random.Range(1,6);
+		iq += tempIQ;
+		// Text.text = "IQ increased by " + tempIQ "points!";
+		guts += Random.Range(1,6);
+		luck += Random.Range(1,6);
+		vitality += Random.Range(1,6);
+		speed += Random.Range(1,6);
+		offense += Random.Range(1,6);
+		defense += Random.Range(1,6);
 		#endregion
 		
 		if (vitality % 5 == 0){
@@ -67,7 +70,7 @@ public class CharacterInfo : MonoBehaviour {
 
 	}
 
-	public void AwardExperiencePoints(int exp){
+	public void GiveExp(int exp){
 		currentEXP += exp;
 	}
 

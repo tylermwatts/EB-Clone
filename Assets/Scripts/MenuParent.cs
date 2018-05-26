@@ -10,10 +10,13 @@ public class MenuParent : MonoBehaviour {
 
 	public bool menuIsOpen = false;
 
+	private GameManager gameManager;
+
 	// Use this for initialization
 	void Start () {
 		popUpMenu.SetActive(false);
 		invMenu.SetActive(false);
+		gameManager = FindObjectOfType<GameManager>();
 	}
 	
 	// Update is called once per frame
@@ -21,8 +24,8 @@ public class MenuParent : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.M)){
 			if (menuIsOpen){
 				invMenu.SetActive(false);
-				EnablePopupButtons();
 			}
+			gameManager.paused = !gameManager.paused;
 			menuIsOpen = !menuIsOpen;
 			popUpMenu.SetActive(!popUpMenu.activeSelf);
 		}
@@ -31,21 +34,6 @@ public class MenuParent : MonoBehaviour {
 	public void OnInventorySelected()
     {
         invMenu.SetActive(!invMenu.activeSelf);
-        DisablePopupButtons();
     }
 
-    private void DisablePopupButtons()
-    {
-        foreach (var button in popUpMenu.GetComponentsInChildren<Button>())
-        {
-            button.enabled = false;
-        }
-    }
-    private void EnablePopupButtons()
-    {
-        foreach (var button in popUpMenu.GetComponentsInChildren<Button>())
-        {
-            button.enabled = true;
-        }
-    }
 }
