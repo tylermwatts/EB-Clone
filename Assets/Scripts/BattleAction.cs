@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class BattleAction
+﻿public class BattleAction
 {
 	public ICombatant Performer { get; set; }
 	public ICombatant Target { get; set; }
-	public BattleActionType MyProperty { get; set; }
+	public BattleActionType BattleActionType { get; set; }
 	public string ActionName { get; set; }
-	public int ActionMagnitude { get; set; }
+	public int Magnitude { get; set; }
+	public bool Successful { get; set; }
 }

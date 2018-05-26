@@ -18,9 +18,19 @@ public class BattleInfoBox : MonoBehaviour
 
 	Text textBox;
 
+	bool skipAhead;
+
 	void OnEnable()
 	{
 		textBox = GetComponentInChildren<Text>();
+	}
+
+	void Update()
+	{
+		if (Input.GetButtonDown("Submit"))
+		{
+			skipAhead = true;
+		}
 	}
 
 	public async Task TypeEncounteredEnemiesAsync(string[] enemyNames)
@@ -71,20 +81,37 @@ public class BattleInfoBox : MonoBehaviour
 		await AutoTypeAsync(message);
 	}
 
-	public async Task TypeAttackAttemptAsync(string characterName, string attackName)
+	public async Task TypeBattleActionAttemptAsync(BattleAction battleAction)
 	{
 		textBox.text = string.Empty;
-		var message = $"+ {characterName} tried {attackName}.";
-		await AutoTypeAsync(message);
+		await AutoTypeAsync($"+ {battleAction.Performer.Name} tried {battleAction.ActionName}.");
+	}
+
+	public async Task TypeBattleActionResultAsync(BattleAction battleAction)
+	{
+		if (battleAction.BattleActionType == BattleActionType.Bash && battleAction.Successful)
+		{
+			await AutoTypeAsync($"\n+ {battleAction.Magnitude}HP damage to {battleAction.Target.Name}!");
+		}
+		else
+		{
+			await AutoTypeAsync($"\n+ {battleAction.Target.Name} dodged!");
+		}
 	}
 
 	async Task AutoTypeAsync(string message)
 	{
+		skipAhead = false;
+
 		for (int i = 0; i < message.Length; i++)
 		{
 			textBox.text += message[i];
-			await Task.Delay(TimeSpan.FromSeconds(letterDelayInSeconds));
+			if (!skipAhead)
+			{
+				await Task.Delay(TimeSpan.FromSeconds(letterDelayInSeconds));
+			}
 		}
+
 		await Task.Delay(TimeSpan.FromSeconds(messageDelayInSeconds));
 	}
 }

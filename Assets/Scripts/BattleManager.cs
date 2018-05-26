@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ public class BattleManager : MonoBehaviour
         ArrangeCombatants();
         battlefield.PopulateBattleField(enemies);
         await dialogManager.IntroduceEnemiesAsync(enemies.Select(e => e.Name).ToArray());
-		RunBattle();
+        await RunBattleAsync();
     }
 
     private void ArrangeCombatants()
@@ -45,9 +46,9 @@ public class BattleManager : MonoBehaviour
 		combatants = combatantsList.OrderBy(c => c.Speed);
     }
 
-	private void RunBattle()
+	private async Task RunBattleAsync()
     {
-		if (BattleIsStillWaging())
+		if (BattleIsWaging())
 		{
 			characterIndex++;
 
@@ -58,34 +59,25 @@ public class BattleManager : MonoBehaviour
 			else
 			{
 				DetermineEnemyActions();
-				CarryOutActions();
+                await dialogManager.DisplayBattleInfoAsync(battleActions);
 				battleActions.Clear();
 				characterIndex = -1;
-				RunBattle();
+                await RunBattleAsync();
 			}
 		}
 		
     }
 
-	// TODO Rename this and flesh it out
-    private bool BattleIsStillWaging()
+	// TODO Flesh out BattleIsStillWaging
+    private bool BattleIsWaging()
     {
         return true;
     }
 
     private void DetermineEnemyActions()
     {
-        // TODO flesh out
+        // TODO flesh out DetermineEnemyActions
         Debug.Log("BattleManager running DetermineEnemyActions");
-    }
-
-    private void CarryOutActions()
-    {
-        foreach (var action in battleActions)
-		{
-			// TODO flesh out
-        	Debug.Log("BattleManager running CarryOutActions per action");
-		}
     }
 
     public void OnBashSelected()
@@ -94,29 +86,29 @@ public class BattleManager : MonoBehaviour
 		dialogManager.PromptForTargetSelection();
     }
 
+	public async Task OnEnemySelectedForBashingAsync(Enemy enemy)
+	{
+		var battleAction = characters[characterIndex].Bash(enemy);
+		battleActions.Add(battleAction);
+        await RunBattleAsync();
+	}
+
 	public void OnDefendSelected()
 	{
-		// TODO flesh out
+		// TODO flesh out OnDefendSelected
         Debug.Log("BattleManager running OnDefendSelected");
 	}
 
-	public void OnAutoFightSelected()
+	public async Task OnAutoFightSelectedAsync()
 	{
 		var battleAction = characters[characterIndex].AutoFight(combatants);
 		battleActions.Add(battleAction);
-		RunBattle();
+        await RunBattleAsync();
 	}
 
 	public void OnRunAwaySelected()
 	{
-		// TODO flesh out
+		// TODO flesh out OnRunAwaySelected
         Debug.Log("BattleManager running OnRunAwaySelected");
-	}
-
-    public void OnEnemySelectedForBashing(BattleEnemy battleEnemy)
-	{
-		var battleAction = characters[characterIndex].Bash();
-		battleActions.Add(battleAction);
-		RunBattle();
 	}
 }
