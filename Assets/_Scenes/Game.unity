@@ -65361,6 +65361,61 @@ Prefab:
       propertyPath: m_Name
       value: Ness
       objectReference: {fileID: 0}
+    - target: {fileID: 114790605014907728, guid: 39325fd043fce0748867ea4f86dbc233,
+        type: 2}
+      propertyPath: iq
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790605014907728, guid: 39325fd043fce0748867ea4f86dbc233,
+        type: 2}
+      propertyPath: guts
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790605014907728, guid: 39325fd043fce0748867ea4f86dbc233,
+        type: 2}
+      propertyPath: luck
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790605014907728, guid: 39325fd043fce0748867ea4f86dbc233,
+        type: 2}
+      propertyPath: vitality
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790605014907728, guid: 39325fd043fce0748867ea4f86dbc233,
+        type: 2}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790605014907728, guid: 39325fd043fce0748867ea4f86dbc233,
+        type: 2}
+      propertyPath: offense
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790605014907728, guid: 39325fd043fce0748867ea4f86dbc233,
+        type: 2}
+      propertyPath: defense
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790605014907728, guid: 39325fd043fce0748867ea4f86dbc233,
+        type: 2}
+      propertyPath: characterLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790605014907728, guid: 39325fd043fce0748867ea4f86dbc233,
+        type: 2}
+      propertyPath: expToNextLevel
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790605014907728, guid: 39325fd043fce0748867ea4f86dbc233,
+        type: 2}
+      propertyPath: hp
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790605014907728, guid: 39325fd043fce0748867ea4f86dbc233,
+        type: 2}
+      propertyPath: pp
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 39325fd043fce0748867ea4f86dbc233, type: 2}
   m_IsPrefabParent: 0
