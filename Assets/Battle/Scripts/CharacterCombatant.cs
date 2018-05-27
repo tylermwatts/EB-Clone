@@ -31,10 +31,7 @@ public abstract class CharacterCombatant : ICombatant
     public bool IsDazed { get; set; }
     public int HitPoints { get; set; }
 
-    public virtual BattleAction AutoFight(IEnumerable<ICombatant> combatants)
-    {
-        throw new NotImplementedException();
-    }
+    public abstract BattleAction AutoFight(IEnumerable<ICombatant> combatants);
 
     // The method below attempts to implement Physical Attack equations 
     // located here: http://starmen.net/mother2/gameinfo/technical/equations.php
@@ -45,13 +42,22 @@ public abstract class CharacterCombatant : ICombatant
             Performer = this,
             Target = enemy,
             BattleActionType = BattleActionType.Bash,
+            ActionName = "Bash",
             Result = GetBashResult(enemy)
         };
 
-        switch (battleAction.Result)
+        battleAction.Magnitude = CalculateBashMagnitude(battleAction.Result, enemy);
+
+        return battleAction;
+    }
+
+    private int CalculateBashMagnitude(BattleActionResult result, EnemyCombatant enemy)
+    {
+        var magnitude = 0;
+        switch (result)
         {
             case BattleActionResult.Smash:
-            battleAction.Magnitude = 4 * Offense - enemy.Defense;
+            magnitude = 4 * Offense - enemy.Defense;
             break;
 
             case BattleActionResult.Hit:
@@ -59,20 +65,21 @@ public abstract class CharacterCombatant : ICombatant
             // but I can't figure out where that logic comes from.
             var damage = 2 * Offense - enemy.Defense;
             var randomModifier = Random.Range(-0.25f * damage, 0.25f * damage);
-            battleAction.Magnitude = Mathf.RoundToInt(damage + randomModifier);
+            magnitude = Mathf.RoundToInt(damage + randomModifier);
             break;
 
             default:
-            battleAction.Magnitude = 0;
-            break;
+            return magnitude;
         }
 
-        if (battleAction.Magnitude > 0 && enemy.IsDefending)
+        magnitude = Mathf.Max(0, magnitude);
+
+        if (magnitude > 0 && enemy.IsDefending)
         {
-            battleAction.Magnitude /= 2;
+            magnitude /= 2;
         }
 
-        return battleAction;
+        return magnitude;
     }
 
     private BattleActionResult GetBashResult(EnemyCombatant enemy)
