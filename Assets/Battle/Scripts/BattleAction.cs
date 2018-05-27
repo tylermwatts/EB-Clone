@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class BattleAction
 {
-	public ICombatant Performer { get; set; }
-	public ICombatant Target { get; set; } // TODO Figure out how to handle AOE actions
+	public Combatant Performer { get; set; }
+	public Combatant Target { get; set; } // TODO Figure out how to handle AOE actions
 	public BattleActionType BattleActionType { get; set; }
 	public string ActionName { get; set; }
 	public int Magnitude { get; set; }

@@ -23,11 +23,11 @@ public class BattleManager : MonoBehaviour
         };
 	CharacterCombatant[] characters = new CharacterCombatant[] 
 		{ 
-			new TestCharacter(), 
-			new TestCharacter() 
+			new CharacterCombatant("Ness", offense: 2, defense: 2, speed: 2, guts: 2, hitPoints: 30), 
+			new CharacterCombatant("Paula", offense: 2, defense: 2, speed: 2, guts: 2, hitPoints: 30) 
 		};
 
-	List<ICombatant> combatants = new List<ICombatant>();
+	List<Combatant> combatants = new List<Combatant>();
 	int characterIndex = -1;
 	List<BattleAction> battleActions = new List<BattleAction>();
 

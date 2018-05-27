@@ -63,5 +63,6 @@ public class BattleDialogManager : MonoBehaviour
 		await battleInfoBox.TypeBattleActionAttemptAsync(battleAction);
 		// TODO kick off animation for result
 		await battleInfoBox.TypeBattleActionResultAsync(battleAction);
+		battleMenuGameObject.GetComponentInChildren<Menu>().ActivateButtons();
 	}
 }
