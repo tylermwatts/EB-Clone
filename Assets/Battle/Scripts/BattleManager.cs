@@ -62,7 +62,12 @@ public class BattleManager : MonoBehaviour
 			else
 			{
 				DetermineEnemyActions();
-                await dialogManager.DisplayBattleInfoAsync(battleActions);
+				foreach (var battleAction in battleActions)
+				{
+					await dialogManager.DisplayBattleInfoAsync(battleAction);
+					battleAction.ApplyToTarget();
+				}
+                
 				battleActions.Clear();
 				characterIndex = -1;
                 await RunBattleAsync();

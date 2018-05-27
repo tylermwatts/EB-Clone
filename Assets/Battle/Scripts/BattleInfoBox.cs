@@ -89,7 +89,7 @@ public class BattleInfoBox : MonoBehaviour
 
 	public async Task TypeBattleActionResultAsync(BattleAction battleAction)
 	{
-		if (battleAction.BattleActionType == BattleActionType.Bash && battleAction.Successful)
+		if (battleAction.BattleActionType == BattleActionType.Bash && battleAction.Result == BattleActionResult.Hit)
 		{
 			await AutoTypeAsync($"\n+ {battleAction.Magnitude}HP damage to {battleAction.Target.Name}!");
 		}

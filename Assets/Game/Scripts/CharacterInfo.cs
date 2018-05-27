@@ -20,7 +20,7 @@ public class CharacterInfo : MonoBehaviour {
 		// Testing adding items to inventory
 
 		Item item0 = new Item { ItemType = ItemType.Arms, ItemName = "Cheap Bracelet" };
-		Item item1 = new Item { ItemType = ItemType.Consumable, ItemName = "Bread Roll", RecoversHP = 8 };
+		Item item1 = new Item { ItemType = ItemType.Consumable, ItemName = "Bread Roll" };
 		Item item2 = new Item { ItemType = ItemType.Reusable, ItemName = "For Sale Sign" };
 		Item item3 = new Item { ItemType = ItemType.Weapon, ItemName = "Baseball Bat" };
 
