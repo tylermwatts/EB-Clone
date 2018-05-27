@@ -15,15 +15,19 @@ public class BattleManager : MonoBehaviour
 	
 	// TODO implement scenemanager through which enemies/characters could be passed to this scene from the last scene
 	// For now, hardcode enemies and characters
-	Enemy[] enemies = new Enemy[]
+	EnemyCombatant[] enemies = new EnemyCombatant[]
         {
-            new Enemy { Name = "Andrew", BattleSpriteName = "Starman" },
-            new Enemy { Name = "Sleepy", BattleSpriteName = "Starman" },
-            new Enemy { Name = "Sneezy", BattleSpriteName = "Starman" }
+            new TestEnemyCombatant(),
+            new TestEnemyCombatant(),
+            new TestEnemyCombatant()
         };
-	Character[] characters = new Character[] { new Character { Name = "Ness" }, new Character { Name = "Paula" } };
+	CharacterCombatant[] characters = new CharacterCombatant[] 
+		{ 
+			new CharacterCombatant(CharacterName.Ness, offense: 2, defense: 2, speed: 2, guts: 2, hitPoints: 30), 
+			new CharacterCombatant(CharacterName.Paula, offense: 2, defense: 2, speed: 2, guts: 2, hitPoints: 30) 
+		};
 
-	IEnumerable<ICombatant> combatants;
+	List<Combatant> combatants = new List<Combatant>();
 	int characterIndex = -1;
 	List<BattleAction> battleActions = new List<BattleAction>();
 
@@ -40,10 +44,9 @@ public class BattleManager : MonoBehaviour
 
     private void ArrangeCombatants()
     {
-        var combatantsList = new List<ICombatant>();
-        combatantsList.AddRange(characters);
-        combatantsList.AddRange(enemies);
-		combatants = combatantsList.OrderBy(c => c.Speed);
+        combatants.AddRange(characters);
+        combatants.AddRange(enemies);
+		combatants = combatants.OrderBy(c => c.Speed).ToList();
     }
 
 	private async Task RunBattleAsync()
@@ -59,7 +62,12 @@ public class BattleManager : MonoBehaviour
 			else
 			{
 				DetermineEnemyActions();
-                await dialogManager.DisplayBattleInfoAsync(battleActions);
+				foreach (var battleAction in battleActions)
+				{
+					await dialogManager.DisplayBattleInfoAsync(battleAction);
+					battleAction.ApplyToTarget();
+				}
+                
 				battleActions.Clear();
 				characterIndex = -1;
                 await RunBattleAsync();
@@ -86,7 +94,7 @@ public class BattleManager : MonoBehaviour
 		dialogManager.PromptForTargetSelection();
     }
 
-	public async Task OnEnemySelectedForBashingAsync(Enemy enemy)
+	public async Task OnEnemySelectedForBashingAsync(EnemyCombatant enemy)
 	{
 		var battleAction = characters[characterIndex].Bash(enemy);
 		battleActions.Add(battleAction);

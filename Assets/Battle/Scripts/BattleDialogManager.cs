@@ -56,15 +56,13 @@ public class BattleDialogManager : MonoBehaviour
 		text.text = $"To {enemyName}";
 	}
 
-	public async Task DisplayBattleInfoAsync(IEnumerable<BattleAction> battleActions)
+	public async Task DisplayBattleInfoAsync(BattleAction battleAction)
 	{
 		battleMenuGameObject.GetComponentInChildren<Menu>().DeactivateButtons();
 		battleInfoBoxGameObject.SetActive(true);
-		foreach (var battleAction in battleActions)
-		{
-			await battleInfoBox.TypeBattleActionAttemptAsync(battleAction);
-			// TODO kick off animation for result
-			await battleInfoBox.TypeBattleActionResultAsync(battleAction);
-		}
+		await battleInfoBox.TypeBattleActionAttemptAsync(battleAction);
+		// TODO kick off animation for result
+		await battleInfoBox.TypeBattleActionResultAsync(battleAction);
+		battleMenuGameObject.GetComponentInChildren<Menu>().ActivateButtons();
 	}
 }

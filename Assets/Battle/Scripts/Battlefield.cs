@@ -8,7 +8,7 @@ public class Battlefield : MonoBehaviour
 {
 	[SerializeField] GameObject battleEnemyPrefab;
 
-	public void PopulateBattleField(IEnumerable<Enemy> enemies)
+	public void PopulateBattleField(IEnumerable<EnemyCombatant> enemies)
     {
         foreach (var enemy in enemies)
         {
@@ -16,7 +16,7 @@ public class Battlefield : MonoBehaviour
         }
     }
 
-	private void InstantiateBattleEnemy(Enemy enemy)
+	private void InstantiateBattleEnemy(EnemyCombatant enemy)
     {
         var battleEnemyGameObject = Instantiate<GameObject>(battleEnemyPrefab);
 

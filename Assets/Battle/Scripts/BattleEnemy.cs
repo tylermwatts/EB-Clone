@@ -8,7 +8,7 @@ public class BattleEnemy : MonoBehaviour, ISubmitHandler, ISelectHandler
     BattleDialogManager dialogManager;
     Battlefield battlefield;
 
-    Enemy enemy { get; set; }
+    EnemyCombatant enemy { get; set; }
 
     void Start() 
 	{
@@ -17,7 +17,7 @@ public class BattleEnemy : MonoBehaviour, ISubmitHandler, ISelectHandler
         battlefield = GetComponentInParent<Battlefield>();
 	}
 
-    public void AssignEnemy(Enemy enemy)
+    public void AssignEnemy(EnemyCombatant enemy)
     {
         this.enemy = enemy;
         var image = GetComponent<Image>();
