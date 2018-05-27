@@ -27,7 +27,7 @@ public class BattleManager : MonoBehaviour
 			new TestCharacter() 
 		};
 
-	List<ICombatant> combatants;
+	List<ICombatant> combatants = new List<ICombatant>();
 	int characterIndex = -1;
 	List<BattleAction> battleActions = new List<BattleAction>();
 

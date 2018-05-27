@@ -12,9 +12,11 @@ public abstract class CharacterCombatant : ICombatant
     private readonly int offense;
     private readonly int defense;
 
-    public CharacterCombatant(string name, int speed, int guts)
+    public CharacterCombatant(string name, int offense, int defense, int speed, int guts)
     {
         this.name = name;
+        this.offense = offense;
+        this.defense = defense;
         this.speed = speed;
         this.guts = guts;
     }
@@ -110,7 +112,12 @@ public abstract class CharacterCombatant : ICombatant
 
 public class TestCharacter : CharacterCombatant
 {
-    public TestCharacter() : base("Ness", 0, 0)
+    public TestCharacter() : base(
+        name: "Ness", 
+        offense: 2,
+        defense: 2,
+        speed: 2,
+        guts: 2)
     {
     }
 
