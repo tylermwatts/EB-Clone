@@ -17,9 +17,7 @@ public class BattleManager : MonoBehaviour
 	// For now, hardcode enemies and characters
 	EnemyCombatant[] enemies = new EnemyCombatant[]
         {
-            new TestEnemyCombatant(),
-            new TestEnemyCombatant(),
-            new TestEnemyCombatant()
+            new CoilSnakeCombatant()
         };
 	CharacterCombatant[] characters = new CharacterCombatant[] 
 		{ 

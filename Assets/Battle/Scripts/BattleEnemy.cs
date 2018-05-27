@@ -22,6 +22,7 @@ public class BattleEnemy : MonoBehaviour, ISubmitHandler, ISelectHandler
         this.enemy = enemy;
         var image = GetComponent<Image>();
         image.overrideSprite = Resources.Load<Sprite>(enemy.BattleSpriteName);
+        image.SetNativeSize();
     }
     
     public void OnSelect(BaseEventData eventData)

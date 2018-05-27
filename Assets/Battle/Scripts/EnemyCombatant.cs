@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class EnemyCombatant : Combatant
@@ -12,23 +13,27 @@ public abstract class EnemyCombatant : Combatant
     }
 
     public string BattleSpriteName => battleSpriteName;
-}
-
-public class TestEnemyCombatant : EnemyCombatant
-{
-    public TestEnemyCombatant() : base(
-        name: "Starman", 
-        offense: 103,
-        defense: 126,
-        speed: 24,
-        guts: 25,
-        hitPoints: 545,
-        battleSpriteName: "Starman")
-    {
-    }
 
     public override BattleAction AutoFight(IEnumerable<Combatant> combatants)
     {
-        throw new System.NotImplementedException();
+        var randomInt = Random.Range(1,5);
+        switch (randomInt)
+        {
+            case 1:
+            return Action1(combatants);
+            case 2:
+            return Action2(combatants);
+            case 3:
+            return Action3(combatants);
+            case 4:
+            return Action4(combatants);
+            default:
+            throw new InvalidEnumArgumentException();
+        }
     }
+
+    protected abstract BattleAction Action1(IEnumerable<Combatant> combatants);
+    protected abstract BattleAction Action2(IEnumerable<Combatant> combatants);
+    protected abstract BattleAction Action3(IEnumerable<Combatant> combatants);
+    protected abstract BattleAction Action4(IEnumerable<Combatant> combatants);
 }
