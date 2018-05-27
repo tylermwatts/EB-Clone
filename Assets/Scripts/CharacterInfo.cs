@@ -55,6 +55,7 @@ public class CharacterInfo : MonoBehaviour {
     {
         int oldLevel = characterLevel;
         characterLevel++;
+		// Text.text = $"{characterName} is now level {characterLevel}!";
 
         #region Character Specific Stat Growth Rates
 
