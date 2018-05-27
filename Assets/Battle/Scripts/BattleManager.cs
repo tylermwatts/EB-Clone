@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine;
@@ -54,27 +53,57 @@ public class BattleManager : MonoBehaviour
 			characterIndex++;
 
 			if (characterIndex < characters.Length)
-			{
-				dialogManager.PromptForCharacterAction(characters[characterIndex].Name);
-			}
-			else
-			{
-				DetermineEnemyActions();
-				foreach (var battleAction in battleActions)
-				{
-					await dialogManager.DisplayBattleInfoAsync(battleAction);
-					battleAction.ApplyToTarget();
-				}
-                
-				battleActions.Clear();
-				characterIndex = -1;
+            {
+                await GetPlayerInput();
+            }
+            else
+            {
+                await ExecuteBattleActions();
+                Reset();
                 await RunBattleAsync();
-			}
-		}
-		
+            }
+        }
     }
 
-	// TODO Flesh out BattleIsStillWaging
+    private async Task GetPlayerInput()
+    {
+        if (characters[characterIndex].Immobilized)
+        {
+            var immobilizationBreakAttemptSuccessful = characters[characterIndex].AttemptToBreakImmobilization();
+            if (immobilizationBreakAttemptSuccessful)
+            {
+                await dialogManager.DisplayImmobilizationUpdate(characters[characterIndex].Name, immobilized: false);
+                dialogManager.PromptForCharacterAction(characters[characterIndex].Name);
+            }
+            else
+            {
+                await dialogManager.DisplayImmobilizationUpdate(characters[characterIndex].Name, immobilized: true);
+                await RunBattleAsync();
+            }
+        }
+        else
+        {
+            dialogManager.PromptForCharacterAction(characters[characterIndex].Name);
+        }
+    }
+
+    private async Task ExecuteBattleActions()
+    {
+        DetermineEnemyActions();
+        foreach (var battleAction in battleActions)
+        {
+            await dialogManager.DisplayBattleInfoAsync(battleAction);
+            battleAction.ApplyToTarget();
+        }
+    }
+
+    private void Reset()
+    {
+        battleActions.Clear();
+        characterIndex = -1;
+    }
+
+    // TODO Flesh out BattleIsStillWaging
     private bool BattleIsWaging()
     {
         return true;
@@ -82,8 +111,34 @@ public class BattleManager : MonoBehaviour
 
     private void DetermineEnemyActions()
     {
-        // TODO flesh out DetermineEnemyActions
-        Debug.Log("BattleManager running DetermineEnemyActions");
+        foreach (var enemy in enemies)
+        {
+            if (enemy.Immobilized)
+            {
+                var immobilizationBreakBattleAction = new BattleAction
+                {
+                    Performer = enemy,
+                    Target = enemy,
+                    BattleActionType = BattleActionType.BreakImmobilization,
+                };
+
+                if (enemy.AttemptToBreakImmobilization())
+                {
+                    immobilizationBreakBattleAction.Result = BattleActionResult.Successful;
+                }
+                else
+                {
+                    immobilizationBreakBattleAction.Result = BattleActionResult.Failed;
+                }
+
+                battleActions.Add(immobilizationBreakBattleAction);
+            }
+
+            if (!enemy.Immobilized)
+            {
+                battleActions.Add(enemy.AutoFight(combatants));
+            }
+        }
     }
 
     public void OnBashSelected()

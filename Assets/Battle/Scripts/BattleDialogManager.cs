@@ -10,10 +10,12 @@ public class BattleDialogManager : MonoBehaviour
 	[SerializeField] GameObject targetSelectionBoxGameObject;
 	[SerializeField] Text characterNameText;
 	BattleInfoBox battleInfoBox;
+    Menu battleMenu;
 
     void Start()
     {
 		battleInfoBox = battleInfoBoxGameObject.GetComponent<BattleInfoBox>();
+        battleMenu = battleMenuGameObject.GetComponent<Menu>();
 		
 		// Reset these game objects to the appropriate state for the start of the scene
 		battleMenuGameObject.SetActive(false);
@@ -24,7 +26,7 @@ public class BattleDialogManager : MonoBehaviour
 	public void ResetBattleMenu()
 	{
 		battleMenuGameObject.SetActive(true);
-		battleMenuGameObject.GetComponentInChildren<Menu>().ActivateButtons();
+		battleMenu.ActivateButtons();
 		battleInfoBoxGameObject.SetActive(false);
 		targetSelectionBoxGameObject.SetActive(false);
 	}
@@ -41,12 +43,13 @@ public class BattleDialogManager : MonoBehaviour
 	{
 		battleInfoBoxGameObject.SetActive(false);
 		battleMenuGameObject.SetActive(true);
-		characterNameText.text = characterName;
+        battleMenu.ActivateButtons();
+        characterNameText.text = characterName;
 	}
 
 	public void PromptForTargetSelection()
 	{
-		battleMenuGameObject.GetComponent<Menu>().DeactivateButtons();
+		battleMenu.DeactivateButtons();
 		targetSelectionBoxGameObject.SetActive(true);
 	}
 
@@ -58,11 +61,18 @@ public class BattleDialogManager : MonoBehaviour
 
 	public async Task DisplayBattleInfoAsync(BattleAction battleAction)
 	{
-		battleMenuGameObject.GetComponentInChildren<Menu>().DeactivateButtons();
+		battleMenu.DeactivateButtons();
 		battleInfoBoxGameObject.SetActive(true);
 		await battleInfoBox.TypeBattleActionAttemptAsync(battleAction);
 		// TODO kick off animation for result
 		await battleInfoBox.TypeBattleActionResultAsync(battleAction);
-		battleMenuGameObject.GetComponentInChildren<Menu>().ActivateButtons();
+		battleMenu.ActivateButtons();
 	}
+
+    public async Task DisplayImmobilizationUpdate(string characterName, bool immobilized)
+    {
+        battleMenu.DeactivateButtons();
+        battleInfoBoxGameObject.SetActive(true);
+        await battleInfoBox.TypeImmobilizationUpdate(characterName, immobilized);
+    }
 }

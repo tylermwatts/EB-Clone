@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 public class BattleAction
 {
@@ -20,8 +19,14 @@ public class BattleAction
 		switch (BattleActionType)
 		{
 			case BattleActionType.Bash:
-			Target.HitPoints -= Magnitude;
-			break;
+			    Target.HitPoints -= Magnitude;
+			    return;
+            case BattleActionType.Immobilize:
+                if (Result == BattleActionResult.Successful)
+                {
+                    Target.Immobilized = true;
+                }
+                return;
 		}
 	}
 }

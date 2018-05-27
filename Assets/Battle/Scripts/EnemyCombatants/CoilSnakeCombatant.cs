@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 public class CoilSnakeCombatant : EnemyCombatant
 {
@@ -11,21 +10,47 @@ public class CoilSnakeCombatant : EnemyCombatant
 
     protected override BattleAction Action1(IEnumerable<Combatant> combatants)
     {
-        throw new System.NotImplementedException();
+        // Biting Attack
+        var target = SelectRandomCharacter(combatants.OfType<CharacterCombatant>());
+
+        var battleAction = new BattleAction
+        {
+            Performer = this,
+            Target = target,
+            BattleActionType = BattleActionType.Bash,
+            ActionName = "Bite",
+            Result = GetPhysicalAttackResult(target, 15)
+        };
+
+        battleAction.Magnitude = CalculatePhysicalAttackMagnitude(battleAction);
+
+        return battleAction;
     }
 
     protected override BattleAction Action2(IEnumerable<Combatant> combatants)
     {
-        throw new System.NotImplementedException();
+        return Action1(combatants);
     }
 
     protected override BattleAction Action3(IEnumerable<Combatant> combatants)
     {
-        throw new System.NotImplementedException();
+        return Action1(combatants);
     }
 
     protected override BattleAction Action4(IEnumerable<Combatant> combatants)
     {
-        throw new System.NotImplementedException();
+        // Coil around target and attack
+        var target = SelectRandomCharacter(combatants.OfType<CharacterCombatant>());
+
+        var battleAction = new BattleAction
+        {
+            Performer = this,
+            Target = target,
+            BattleActionType = BattleActionType.Immobilize,
+            ActionName = "Coil",
+            Result = BattleActionResult.Successful
+        };
+
+        return battleAction;
     }
 }

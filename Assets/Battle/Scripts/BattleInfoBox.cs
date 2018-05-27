@@ -7,10 +7,11 @@ using Random = UnityEngine.Random;
 public class BattleInfoBox : MonoBehaviour 
 {
 	[SerializeField] double letterDelayInSeconds = 0.01;
-	[SerializeField] double messageDelayInSeconds = 1.0;
+	[SerializeField] double messageDelayInSeconds = 1.5;
 	[SerializeField] string[] encounterPhrases = { "have encountered", "confront", "came upon" };
 	[SerializeField] string[] singleFriendPhrases = { "cohort", "friend", "buddy" };
 	[SerializeField] string[] pluralFriendPhrases = { "cohorts", "friends", "buddies" };
+    [SerializeField] string[] attemptedPhrases = { "tried", "attempted" };
 	Text textBox;
 	bool skipAhead;
 
@@ -78,27 +79,66 @@ public class BattleInfoBox : MonoBehaviour
 	public async Task TypeBattleActionAttemptAsync(BattleAction battleAction)
 	{
 		textBox.text = string.Empty;
-		await AutoTypeAsync($"+ {battleAction.Performer.Name} tried {battleAction.ActionName}.");
+        var attemptedPhrase = attemptedPhrases[Random.Range(0, attemptedPhrases.Length)];
+		await AutoTypeAsync($"+ {battleAction.Performer.Name} {attemptedPhrase} to {battleAction.ActionName} {battleAction.Target.Name}.");
 	}
 
 	public async Task TypeBattleActionResultAsync(BattleAction battleAction)
 	{
-		if (battleAction.Result == BattleActionResult.Hit || battleAction.Result == BattleActionResult.Smash)
-		{
-			if (battleAction.Result == BattleActionResult.Smash)
-			{
-				await AutoTypeAsync($"\nSMAAAASH!!!!");
-			}
+        switch (battleAction.BattleActionType)
+        {
+            case BattleActionType.Bash:
+                await TypeBashResultAsync(battleAction);
+                break;
+            case BattleActionType.Immobilize:
+                await TypeImmobilizationResultAsync(battleAction);
+                break;
+        }
+    }
 
-			await AutoTypeAsync($"\n+ {battleAction.Magnitude}HP damage to {battleAction.Target.Name}!");
-		}
-		else
-		{
-			await AutoTypeAsync($"\n+ {battleAction.Target.Name} dodged!");
-		}
-	}
+    private async Task TypeBashResultAsync(BattleAction battleAction)
+    {
+        switch (battleAction.Result)
+        {
+            case BattleActionResult.Smash:
+                await AutoTypeAsync($"\nSMAAAASH!!!!");
+                goto case BattleActionResult.Successful;
+            case BattleActionResult.Successful:
+                await AutoTypeAsync($"\n+ {battleAction.Magnitude}HP damage to {battleAction.Target.Name}!");
+                return;
+            case BattleActionResult.Dodged:
+                await AutoTypeAsync($"\n+ {battleAction.Target.Name} dodged!");
+                return;
+        }
+    }
 
-	async Task AutoTypeAsync(string message)
+    private async Task TypeImmobilizationResultAsync(BattleAction battleAction)
+    {
+        if (battleAction.Result == BattleActionResult.Successful)
+        {
+            await AutoTypeAsync($"\n+ {battleAction.Target.Name} is immobilized!");
+        }
+        else
+        {
+            await AutoTypeAsync($"\n+ {battleAction.Performer.Name} failed!");
+        }
+    }
+
+    public async Task TypeImmobilizationUpdate(string characterName, bool immobilized)
+    {
+        textBox.text = string.Empty;
+
+        if (immobilized)
+        {
+            await AutoTypeAsync($"{characterName} is still immobilized.");
+        }
+        else
+        {
+            await AutoTypeAsync($"{characterName} broke immobilization!");
+        }
+    }
+
+    async Task AutoTypeAsync(string message)
 	{
 		skipAhead = false;
 
