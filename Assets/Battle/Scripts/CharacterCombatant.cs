@@ -6,9 +6,12 @@ using Random = UnityEngine.Random;
 
 public class CharacterCombatant : Combatant
 {
-    public CharacterCombatant(string name, int offense, int defense, int speed, int guts, int hitPoints)
-    : base(name, offense, defense, speed, guts, hitPoints)
+    private CharacterName characterName;
+
+    public CharacterCombatant(CharacterName characterName, int offense, int defense, int speed, int guts, int hitPoints)
+    : base(characterName.ToString(), offense, defense, speed, guts, hitPoints)
     {
+        this.characterName = characterName;
     }
 
     public override int Offense => offense + Weapon?.Offense ?? 0;
@@ -37,20 +40,3 @@ public class CharacterCombatant : Combatant
         return battleAction;
     }
 }
-
-// public class TestCharacterCombatant : CharacterCombatant
-// {
-//     public TestCharacterCombatant() : base(
-//         name: "Ness", 
-//         offense: 2,
-//         defense: 2,
-//         speed: 2,
-//         guts: 2)
-//     {
-//     }
-
-//     public override BattleAction AutoFight(IEnumerable<Combatant> combatants)
-//     {
-//         throw new NotImplementedException();
-//     }
-// }

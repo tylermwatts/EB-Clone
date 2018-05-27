@@ -23,8 +23,8 @@ public class BattleManager : MonoBehaviour
         };
 	CharacterCombatant[] characters = new CharacterCombatant[] 
 		{ 
-			new CharacterCombatant("Ness", offense: 2, defense: 2, speed: 2, guts: 2, hitPoints: 30), 
-			new CharacterCombatant("Paula", offense: 2, defense: 2, speed: 2, guts: 2, hitPoints: 30) 
+			new CharacterCombatant(CharacterName.Ness, offense: 2, defense: 2, speed: 2, guts: 2, hitPoints: 30), 
+			new CharacterCombatant(CharacterName.Paula, offense: 2, defense: 2, speed: 2, guts: 2, hitPoints: 30) 
 		};
 
 	List<Combatant> combatants = new List<Combatant>();
