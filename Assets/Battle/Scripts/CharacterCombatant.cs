@@ -23,8 +23,6 @@ public class CharacterCombatant : Combatant
         throw new NotImplementedException();
     }
 
-    // The method below attempts to implement Physical Attack equations 
-    // located here: http://starmen.net/mother2/gameinfo/technical/equations.php
     public BattleAction Bash(EnemyCombatant enemy)
     {
         var battleAction = new BattleAction

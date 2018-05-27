@@ -30,6 +30,8 @@ public abstract class Combatant
 
     public abstract BattleAction AutoFight(IEnumerable<Combatant> combatants);
 
+    // The method below attempts to implement Physical Attack equations 
+    // located here: http://starmen.net/mother2/gameinfo/technical/equations.php
     protected BattleActionResult GetPhysicalAttackResult(Combatant target, int weaponAccuracyOutOf16)
     {
         var hitChance = Random.Range(1, 17);
@@ -63,6 +65,8 @@ public abstract class Combatant
         return BattleActionResult.Miss;
     }
 
+    // The method below attempts to implement Physical Attack equations 
+    // located here: http://starmen.net/mother2/gameinfo/technical/equations.php
     protected int CalculatePhysicalAttackMagnitude(BattleActionResult result, Combatant target)
     {
         var magnitude = 0;
