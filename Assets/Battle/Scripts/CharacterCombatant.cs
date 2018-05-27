@@ -19,6 +19,7 @@ public class CharacterCombatant : Combatant
 
     public override BattleAction AutoFight(IEnumerable<Combatant> combatants)
     {
+        // TODO flesh out 
         throw new NotImplementedException();
     }
 
@@ -32,10 +33,10 @@ public class CharacterCombatant : Combatant
             Target = enemy,
             BattleActionType = BattleActionType.Bash,
             ActionName = "Bash",
-            Result = GetBashResult(enemy, Weapon?.Accuracy ?? 15)
+            Result = GetPhysicalAttackResult(enemy, Weapon?.Accuracy ?? 15)
         };
 
-        battleAction.Magnitude = CalculateBashMagnitude(battleAction.Result, enemy);
+        battleAction.Magnitude = CalculatePhysicalAttackMagnitude(battleAction.Result, enemy);
 
         return battleAction;
     }

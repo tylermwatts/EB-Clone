@@ -30,7 +30,7 @@ public abstract class Combatant
 
     public abstract BattleAction AutoFight(IEnumerable<Combatant> combatants);
 
-    protected BattleActionResult GetBashResult(Combatant target, int weaponAccuracyOutOf16)
+    protected BattleActionResult GetPhysicalAttackResult(Combatant target, int weaponAccuracyOutOf16)
     {
         var hitChance = Random.Range(1, 17);
      
@@ -63,7 +63,7 @@ public abstract class Combatant
         return BattleActionResult.Miss;
     }
 
-    protected int CalculateBashMagnitude(BattleActionResult result, Combatant target)
+    protected int CalculatePhysicalAttackMagnitude(BattleActionResult result, Combatant target)
     {
         var magnitude = 0;
         switch (result)
