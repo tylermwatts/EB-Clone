@@ -109,6 +109,9 @@ public class BattleInfoBox : MonoBehaviour
             case BattleActionResult.Dodged:
                 await AutoTypeAsync($"\n+ {battleAction.Target.Name} dodged!");
                 return;
+			case BattleActionResult.Failed:
+                await AutoTypeAsync($"\n+ {battleAction.Performer.Name} missed!");
+                return;
         }
     }
 
