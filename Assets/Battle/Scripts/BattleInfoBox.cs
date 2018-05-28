@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -112,6 +113,8 @@ public class BattleInfoBox : MonoBehaviour
 			case BattleActionResult.Failed:
                 await AutoTypeAsync($"\n+ {battleAction.Performer.Name} missed!");
                 return;
+			default:
+				throw new InvalidEnumArgumentException("BattleActionResult does not account for given BattleActionResult");
         }
     }
 
