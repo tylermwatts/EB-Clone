@@ -33,17 +33,18 @@ public class BattleManager : MonoBehaviour
         dialogManager = dialogManagerGameObject.GetComponent<BattleDialogManager>();
 		battlefield = battlefieldGameObject.GetComponent<Battlefield>();
 
-        ArrangeCombatants();
+        AssembleCombatants();
         battlefield.PopulateBattleField(enemies);
         await dialogManager.IntroduceEnemiesAsync(enemies.Select(e => e.Name).ToArray());
         await RunBattleAsync();
     }
 
-    private void ArrangeCombatants()
+    private void AssembleCombatants()
     {
         combatants.AddRange(characters);
         combatants.AddRange(enemies);
-		combatants = combatants.OrderBy(c => c.Speed).ToList();
+        // TODO This is meaningless right now bc the battleActions are carried out in the order they are added.. need to fix.
+		// combatants = combatants.OrderBy(c => c.Speed).ToList();
     }
 
 	private async Task RunBattleAsync()
@@ -58,6 +59,7 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
+                DetermineEnemyActions();
                 await ExecuteBattleActions();
                 Reset();
                 await RunBattleAsync();
@@ -89,7 +91,6 @@ public class BattleManager : MonoBehaviour
 
     private async Task ExecuteBattleActions()
     {
-        DetermineEnemyActions();
         foreach (var battleAction in battleActions)
         {
             await dialogManager.DisplayBattleInfoAsync(battleAction);
