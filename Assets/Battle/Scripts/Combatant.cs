@@ -1,32 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public abstract class Combatant 
 {
-    private readonly string name;
     protected readonly int offense;
-    private readonly int defense;
-    private readonly int speed;
-    private readonly int guts;
+    protected readonly int guts;
 
     public Combatant(string name, int offense, int defense, int speed, int guts, int hitPoints)
     {
-        this.name = name;
+        Name = name;
         this.offense = offense;
-        this.defense = defense;
-        this.speed = speed;
+        Defense = defense;
+        Speed = speed;
         this.guts = guts;
         HitPoints = hitPoints;
     }
 
-    public string Name => name;
+    public string Name { get; }
     public virtual int Offense => offense;
-    public int Defense => defense;
-    public int Speed => speed;
-    public int Guts => guts;
+    public int Defense { get; }
+    public int Speed { get; }
+    public virtual int Guts => guts;
     public bool IsDefending { get; set; }
     public bool IsDazed { get; set; }
     public int HitPoints { get; set; }
+    public bool Immobilized { get; set; }
+
+    /// <summary>
+    /// Call this at the start of a character's turn if the character is immobilized.
+    /// </summary>
+    /// <returns>True if immobilization was successfully broken.</returns>
+    public bool AttemptToBreakImmobilization()
+    {
+        if (!Immobilized)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var randomInt = Random.Range(0, 100);
+        if (randomInt < 85)
+        {
+            Immobilized = false;
+            return true;
+        }
+
+        return false;
+    }
 
     public abstract BattleAction AutoFight(IEnumerable<Combatant> combatants);
 
@@ -59,38 +80,43 @@ public abstract class Combatant
                 return BattleActionResult.Dodged;
             }
 
-            return BattleActionResult.Hit;
+            return BattleActionResult.Successful;
         }
 
-        return BattleActionResult.Miss;
+        return BattleActionResult.Failed;
     }
 
     // The method below attempts to implement Physical Attack equations 
     // located here: http://starmen.net/mother2/gameinfo/technical/equations.php
-    protected int CalculatePhysicalAttackMagnitude(BattleActionResult result, Combatant target)
+    protected int CalculatePhysicalAttackMagnitude(BattleAction battleAction)
     {
+        if (battleAction?.Target == null)
+        {
+            throw new ArgumentNullException();
+        }
+
         var magnitude = 0;
-        switch (result)
+        switch (battleAction.Result)
         {
             case BattleActionResult.Smash:
-            magnitude = 4 * Offense - target.Defense;
-            break;
-
-            case BattleActionResult.Hit:
-            // The 2 here below is supposed to vary between 1 and 4,
-            // but I can't figure out where that logic comes from.
-            var damage = 2 * Offense - target.Defense;
-            var randomModifier = Random.Range(-0.25f * damage, 0.25f * damage);
-            magnitude = Mathf.RoundToInt(damage + randomModifier);
-            break;
-
+                magnitude = 4 * Offense - battleAction.Target.Defense;
+                break;
+            case BattleActionResult.Successful:
+                // The 2 here below is supposed to vary between 1 and 4 depending on something called "attack level",
+                // but I can't figure out where that logic comes from.
+                var damage = 2 * Offense - battleAction.Target.Defense;
+                // I believe that, technically, the random range here should be normally distributed, 
+                //but I don't know how to do that
+                var randomModifier = Random.Range(-0.25f * damage, 0.25f * damage);
+                magnitude = Mathf.RoundToInt(damage + randomModifier);
+                break;
             default:
-            return magnitude;
+                return magnitude;
         }
 
         magnitude = Mathf.Max(0, magnitude);
 
-        if (magnitude > 0 && target.IsDefending)
+        if (magnitude > 0 && battleAction.Target.IsDefending)
         {
             magnitude /= 2;
         }
