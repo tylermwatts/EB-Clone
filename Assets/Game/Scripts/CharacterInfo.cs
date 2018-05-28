@@ -13,7 +13,7 @@ public class CharacterInfo : MonoBehaviour {
 	// More information on character stats https://github.com/warpfox/EB-Clone/wiki/Character-Stats
 	[SerializeField] private int iq, guts, luck, vitality, speed, offense, defense;
 	[SerializeField] private int characterLevel, currentEXP, maxHP, maxPP, currentHP, currentPP;
-    private int[] nessGrowthRates = new int[]{18,5,4,7,6,5,5};
+  private int[] nessGrowthRates = new int[]{18,5,4,7,6,5,5};
 	private int[] paulaGrowthRates = new int[]{12,3,8,5,5,2,7};
 	private int[] jeffGrowthRates = new int[]{10,6,5,5,4,3,9};
 	private int[] pooGrowthRates = new int[]{21,18,7,3,3,4,4};

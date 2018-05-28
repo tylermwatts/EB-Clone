@@ -7,17 +7,11 @@ using Random = UnityEngine.Random;
 public class BattleInfoBox : MonoBehaviour 
 {
 	[SerializeField] double letterDelayInSeconds = 0.01;
-
 	[SerializeField] double messageDelayInSeconds = 1.0;
-
 	[SerializeField] string[] encounterPhrases = { "have encountered", "confront", "came upon" };
-
 	[SerializeField] string[] singleFriendPhrases = { "cohort", "friend", "buddy" };
-	
 	[SerializeField] string[] pluralFriendPhrases = { "cohorts", "friends", "buddies" };
-
 	Text textBox;
-
 	bool skipAhead;
 
 	void OnEnable()
@@ -89,8 +83,13 @@ public class BattleInfoBox : MonoBehaviour
 
 	public async Task TypeBattleActionResultAsync(BattleAction battleAction)
 	{
-		if (battleAction.BattleActionType == BattleActionType.Bash && battleAction.Successful)
+		if (battleAction.Result == BattleActionResult.Hit || battleAction.Result == BattleActionResult.Smash)
 		{
+			if (battleAction.Result == BattleActionResult.Smash)
+			{
+				await AutoTypeAsync($"\nSMAAAASH!!!!");
+			}
+
 			await AutoTypeAsync($"\n+ {battleAction.Magnitude}HP damage to {battleAction.Target.Name}!");
 		}
 		else
