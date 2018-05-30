@@ -8,5 +8,7 @@ public class BodyItem : Item {
 
 	public int IncreaseSpeedBy {get;set;}
 
-	// TODO: add "Protection From" property once Status Ailments are created
+	public PermanentStatusAilment ProtectionFromPerm {get;set;}
+
+	public InBattleStatusAilment ProtectionFromInBattle {get;set;}
 }

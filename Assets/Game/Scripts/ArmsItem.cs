@@ -8,8 +8,5 @@ public class ArmsItem : Item {
 
 	public int IncreaseLuckBy {get;set;}
 
-	/* 	Some Arms items also offer protection from Hypnosis. We may want to add
-		an enum of possible status ailments, and add a "ProtectionFrom" property
-		to items that protect from certain ailments.
-	*/
+	public InBattleStatusAilment ProtectionFrom {get;set;}
 }
