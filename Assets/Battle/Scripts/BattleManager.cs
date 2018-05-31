@@ -14,11 +14,11 @@ public class BattleManager : MonoBehaviour
 	
 	// TODO implement scenemanager through which enemies/characters could be passed to this scene from the last scene
 	// For now, hardcode enemies and characters
-	EnemyCombatant[] enemies = new EnemyCombatant[]
+	EnemyCombatant[] enemies = 
         {
             new CoilSnakeCombatant()
         };
-	CharacterCombatant[] characters = new CharacterCombatant[] 
+	CharacterCombatant[] characters =  
 		{ 
 			new CharacterCombatant(CharacterName.Ness, offense: 2, defense: 2, speed: 2, guts: 2, hitPoints: 30), 
 			new CharacterCombatant(CharacterName.Paula, offense: 2, defense: 2, speed: 2, guts: 2, hitPoints: 30) 
@@ -43,8 +43,7 @@ public class BattleManager : MonoBehaviour
     {
         combatants.AddRange(characters);
         combatants.AddRange(enemies);
-        // TODO This is meaningless right now bc the battleActions are carried out in the order they are added.. need to fix.
-		// combatants = combatants.OrderBy(c => c.Speed).ToList();
+        combatants = combatants.OrderBy(c => c.Speed).ToList();
     }
 
 	private async Task RunBattleAsync()
@@ -55,46 +54,51 @@ public class BattleManager : MonoBehaviour
 
 			if (characterIndex < characters.Length)
             {
-                await GetPlayerInput();
+                dialogManager.PromptForPlayerInput(characters[characterIndex].Name);
             }
             else
             {
-                DetermineEnemyActions();
-                await ExecuteBattleActions();
+                dialogManager.ShowBattleOnlyInfoBox();
+                ExecuteCombatantActions();
                 Reset();
+
                 await RunBattleAsync();
             }
         }
     }
 
-    private async Task GetPlayerInput()
+    private void ExecuteCombatantActions()
     {
-        if (characters[characterIndex].Immobilized)
+        foreach (var combatant in combatants)
         {
-            var immobilizationBreakAttemptSuccessful = characters[characterIndex].AttemptToBreakImmobilization();
-            if (immobilizationBreakAttemptSuccessful)
+            if (combatant.IsImmobilized)
             {
-                await dialogManager.DisplayImmobilizationUpdate(characters[characterIndex].Name, immobilized: false);
-                dialogManager.PromptForCharacterAction(characters[characterIndex].Name);
+                // Attempt to break
+                // If broke
+                    // Say so
+                // Else
+                    // Say so
             }
-            else
-            {
-                await dialogManager.DisplayImmobilizationUpdate(characters[characterIndex].Name, immobilized: true);
-                await RunBattleAsync();
-            }
-        }
-        else
-        {
-            dialogManager.PromptForCharacterAction(characters[characterIndex].Name);
-        }
-    }
 
-    private async Task ExecuteBattleActions()
-    {
-        foreach (var battleAction in battleActions)
-        {
-            await dialogManager.DisplayBattleInfoAsync(battleAction);
-            battleAction.ApplyToTarget();
+            if (!combatant.IsImmobilized)
+            {
+                if (combatant is CharacterCombatant)
+                {
+                    var battleAction = battleActions.Where(ba => ba.Performer == combatant).Single();
+                    var character = (CharacterCombatant)combatant;
+                    // await dialogManager.
+                    // character.ResolveAction(battleAction);
+                    // Display result
+                    // Handle KO
+                }
+                else
+                {
+                    var enemy = (EnemyCombatant)combatant;
+                    var battleAction = enemy.AutoFight(combatants);
+                    //battleAction.ApplyToTarget(); // TODO HitPoints damage to CHARACTERs needs to happen over time, not all at once
+                    // Display result
+                }
+            }
         }
     }
 
@@ -108,38 +112,6 @@ public class BattleManager : MonoBehaviour
     private bool BattleIsWaging()
     {
         return true;
-    }
-
-    private void DetermineEnemyActions()
-    {
-        foreach (var enemy in enemies)
-        {
-            if (enemy.Immobilized)
-            {
-                var immobilizationBreakBattleAction = new BattleAction
-                {
-                    Performer = enemy,
-                    Target = enemy,
-                    BattleActionType = BattleActionType.BreakImmobilization,
-                };
-
-                if (enemy.AttemptToBreakImmobilization())
-                {
-                    immobilizationBreakBattleAction.Result = BattleActionResult.Successful;
-                }
-                else
-                {
-                    immobilizationBreakBattleAction.Result = BattleActionResult.Failed;
-                }
-
-                battleActions.Add(immobilizationBreakBattleAction);
-            }
-
-            if (!enemy.Immobilized)
-            {
-                battleActions.Add(enemy.AutoFight(combatants));
-            }
-        }
     }
 
     public void OnBashSelected()

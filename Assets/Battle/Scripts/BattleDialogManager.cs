@@ -14,16 +14,21 @@ public class BattleDialogManager : MonoBehaviour
 
     void Start()
     {
-		battleInfoBox = battleInfoBoxGameObject.GetComponent<BattleInfoBox>();
+        battleInfoBox = battleInfoBoxGameObject.GetComponent<BattleInfoBox>();
         battleMenu = battleMenuGameObject.GetComponent<Menu>();
-		
-		// Reset these game objects to the appropriate state for the start of the scene
-		battleMenuGameObject.SetActive(false);
-		battleInfoBoxGameObject.SetActive(true);
-		targetSelectionBoxGameObject.SetActive(false);
-	}
 
-	public void ResetBattleMenu()
+        // Reset these game objects to the appropriate state for the start of the scene
+        ShowBattleOnlyInfoBox();
+    }
+
+    public void ShowBattleOnlyInfoBox()
+    {
+        battleMenuGameObject.SetActive(false);
+        battleInfoBoxGameObject.SetActive(true);
+        targetSelectionBoxGameObject.SetActive(false);
+    }
+
+    public void ResetBattleMenu()
 	{
 		battleMenuGameObject.SetActive(true);
 		battleMenu.ActivateButtons();
@@ -39,7 +44,7 @@ public class BattleDialogManager : MonoBehaviour
 		await battleInfoBox.TypeEncounteredEnemiesAsync(enemyNames);
 	}
 
-	public void PromptForCharacterAction(string characterName)
+	public void PromptForPlayerInput(string characterName)
 	{
 		battleInfoBoxGameObject.SetActive(false);
 		battleMenuGameObject.SetActive(true);
@@ -59,14 +64,15 @@ public class BattleDialogManager : MonoBehaviour
 		text.text = $"To {enemyName}";
 	}
 
-	public async Task DisplayBattleInfoAsync(BattleAction battleAction)
+	public async Task DisplayActionAttemptAsync(BattleAction battleAction)
 	{
-		battleMenu.DeactivateButtons();
-		battleInfoBoxGameObject.SetActive(true);
 		await battleInfoBox.TypeBattleActionAttemptAsync(battleAction);
+	}
+
+	public async Task DisplayActionResultAsync(BattleAction battleAction)
+	{
 		// TODO kick off animation for result
 		await battleInfoBox.TypeBattleActionResultAsync(battleAction);
-		battleMenu.ActivateButtons();
 	}
 
     public async Task DisplayImmobilizationUpdate(string characterName, bool immobilized)
