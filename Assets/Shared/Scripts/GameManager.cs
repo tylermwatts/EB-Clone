@@ -27,8 +27,4 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-    void SpawnCharacterOnSceneChange(){
-		character.transform.position = spawnPoint.position;
-	}
-	
 }

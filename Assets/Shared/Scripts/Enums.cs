@@ -10,7 +10,9 @@ public enum PermanentStatusAilment { Unconscious, Diamondized, Paralyzed, Nauseo
 
 public enum InBattleStatusAilment { Asleep, Crying, Immobilized, Solidified }
 
-// We may not get a point where we use these, but I'm putting them in here just in case
+// We may not get to a point where we use these, but I'm putting them in here just in case
 public enum SpecialStatusAilment { Mushroomed, Possessed }
 
 public enum CoexistingStatusAilment { FeelingStrange, UnableToConcentrate, Homesick }
+
+public enum Stats { Offense, Defense, Speed, Guts, Luck, Vitality, IQ }

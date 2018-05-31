@@ -9,6 +9,8 @@ public class WeaponItem : Item {
 
 	public int IncreaseGutsBy {get;set;}
 
+	public CharacterName EquippableBy {get;set;}
+
 	// Not sure how accuracy is currently being assigned/used, but it could possibly work like this? Maybe.
 
 	// public int Accuracy
