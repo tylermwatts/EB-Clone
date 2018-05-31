@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
 
 	public bool paused = false;
+	public GameObject character;
+	public Transform spawnPoint;
 
 	void Awake(){
 		if (instance == null){
@@ -25,4 +27,8 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+    void SpawnCharacterOnSceneChange(){
+		character.transform.position = spawnPoint.position;
+	}
+	
 }

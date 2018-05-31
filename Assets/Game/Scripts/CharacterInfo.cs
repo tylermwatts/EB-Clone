@@ -13,17 +13,18 @@ public class CharacterInfo : MonoBehaviour {
 	// More information on character stats https://github.com/warpfox/EB-Clone/wiki/Character-Stats
 	[SerializeField] private int iq, guts, luck, vitality, speed, offense, defense;
 	[SerializeField] private int characterLevel, currentEXP, maxHP, maxPP, currentHP, currentPP;
-  private int[] nessGrowthRates = new int[]{18,5,4,7,6,5,5};
-	private int[] paulaGrowthRates = new int[]{12,3,8,5,5,2,7};
-	private int[] jeffGrowthRates = new int[]{10,6,5,5,4,3,9};
-	private int[] pooGrowthRates = new int[]{21,18,7,3,3,4,4};
+    
+    private readonly int[] paulaGrowthRates = new int[]{12,3,8,5,5,2,7};
+    private readonly int[] nessGrowthRates = new int[]{18,5,4,7,6,5,5};
+    private readonly int[] jeffGrowthRates = new int[]{10,6,5,5,4,3,9};
+    private readonly int[] pooGrowthRates = new int[]{21,18,7,3,3,4,4};
 
     // Use this for initialization
     void Start () {
 		// Testing adding items to inventory
 
 		Item item0 = new Item { ItemType = ItemType.Arms, ItemName = "Cheap Bracelet" };
-		Item item1 = new Item { ItemType = ItemType.Food, ItemName = "Bread Roll" };
+		Item item1 = new HealingItem { ItemType = ItemType.Food, ItemName = "Bread Roll", RecoversHP = 8, NumberOfUses = 1 };
 		Item item2 = new Item { ItemType = ItemType.Miscellaneous, ItemName = "For Sale Sign" };
 		Item item3 = new Item { ItemType = ItemType.Weapon, ItemName = "Baseball Bat" };
 
