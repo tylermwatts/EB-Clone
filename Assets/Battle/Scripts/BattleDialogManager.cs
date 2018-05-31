@@ -75,10 +75,8 @@ public class BattleDialogManager : MonoBehaviour
 		await battleInfoBox.TypeBattleActionResultAsync(battleAction);
 	}
 
-    public async Task DisplayImmobilizationUpdate(string characterName, bool immobilized)
+    public async Task DisplayImmobilizationUpdate(string characterName, bool brokeImmobilization)
     {
-        battleMenu.DeactivateButtons();
-        battleInfoBoxGameObject.SetActive(true);
-        await battleInfoBox.TypeImmobilizationUpdate(characterName, immobilized);
+        await battleInfoBox.TypeImmobilizationUpdate(characterName, brokeImmobilization);
     }
 }

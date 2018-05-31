@@ -130,17 +130,17 @@ public class BattleInfoBox : MonoBehaviour
         }
     }
 
-    public async Task TypeImmobilizationUpdate(string characterName, bool immobilized)
+    public async Task TypeImmobilizationUpdate(string characterName, bool brokeImmobilization)
     {
         textBox.text = string.Empty;
 
-        if (immobilized)
+        if (brokeImmobilization)
         {
-            await AutoTypeAsync($"{characterName} is still immobilized.");
+            await AutoTypeAsync($"{characterName} broke immobilization!");
         }
         else
         {
-            await AutoTypeAsync($"{characterName} broke immobilization!");
+            await AutoTypeAsync($"{characterName} is still immobilized.");
         }
     }
 

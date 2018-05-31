@@ -59,44 +59,51 @@ public class BattleManager : MonoBehaviour
             else
             {
                 dialogManager.ShowBattleOnlyInfoBox();
-                ExecuteCombatantActions();
+                await ExecuteCombatantActions();
                 Reset();
-
                 await RunBattleAsync();
             }
         }
+        else
+        {
+            // TODO What happens when the fight is over?
+        }
     }
 
-    private void ExecuteCombatantActions()
+    private bool BattleIsWaging()
+    {
+        // TODO Flesh out BattleIsWaging
+        return true;
+    }
+
+    private async Task ExecuteCombatantActions()
     {
         foreach (var combatant in combatants)
         {
             if (combatant.IsImmobilized)
             {
-                // Attempt to break
-                // If broke
-                    // Say so
-                // Else
-                    // Say so
+                await dialogManager.DisplayImmobilizationUpdate(combatant.Name, combatant.AttemptToBreakImmobilization());
             }
 
+            // This separate if is required bc a combatant could have broken immobilization above
             if (!combatant.IsImmobilized)
             {
                 if (combatant is CharacterCombatant)
                 {
                     var battleAction = battleActions.Where(ba => ba.Performer == combatant).Single();
                     var character = (CharacterCombatant)combatant;
-                    // await dialogManager.
-                    // character.ResolveAction(battleAction);
-                    // Display result
-                    // Handle KO
+                    await dialogManager.DisplayActionAttemptAsync(battleAction);
+                    character.ResolveAction(battleAction);
+                    await dialogManager.DisplayActionResultAsync(battleAction);
+                    // TODO Handle KO
                 }
                 else
                 {
                     var enemy = (EnemyCombatant)combatant;
                     var battleAction = enemy.AutoFight(combatants);
-                    //battleAction.ApplyToTarget(); // TODO HitPoints damage to CHARACTERs needs to happen over time, not all at once
-                    // Display result
+                    await dialogManager.DisplayActionAttemptAsync(battleAction);
+                    await dialogManager.DisplayActionResultAsync(battleAction);
+                    // TODO Handle impact to character hitpoints, etc.
                 }
             }
         }
@@ -106,12 +113,6 @@ public class BattleManager : MonoBehaviour
     {
         battleActions.Clear();
         characterIndex = -1;
-    }
-
-    // TODO Flesh out BattleIsStillWaging
-    private bool BattleIsWaging()
-    {
-        return true;
     }
 
     public void OnBashSelected()
