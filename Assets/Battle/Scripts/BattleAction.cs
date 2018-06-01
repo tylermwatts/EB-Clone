@@ -8,25 +8,4 @@ public class BattleAction
 	public string ActionName { get; set; }
 	public int Magnitude { get; set; }
 	public BattleActionResult Result { get; set; }
-
-	public void ApplyToTarget()
-	{
-		if (Target == null)
-		{
-			throw new ArgumentNullException(nameof(Target));
-		}
-
-		switch (BattleActionType)
-		{
-			case BattleActionType.Bash:
-			    Target.HitPoints -= Magnitude;
-			    return;
-            case BattleActionType.Immobilize:
-                if (Result == BattleActionResult.Successful)
-                {
-                    Target.Immobilized = true;
-                }
-                return;
-		}
-	}
 }

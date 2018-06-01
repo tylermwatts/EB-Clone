@@ -26,7 +26,7 @@ public abstract class Combatant
     public bool IsDefending { get; set; }
     public bool IsDazed { get; set; }
     public int HitPoints { get; set; }
-    public bool Immobilized { get; set; }
+    public bool IsImmobilized { get; set; }
 
     /// <summary>
     /// Call this at the start of a character's turn if the character is immobilized.
@@ -34,7 +34,7 @@ public abstract class Combatant
     /// <returns>True if immobilization was successfully broken.</returns>
     public bool AttemptToBreakImmobilization()
     {
-        if (!Immobilized)
+        if (!IsImmobilized)
         {
             throw new InvalidOperationException();
         }
@@ -42,7 +42,7 @@ public abstract class Combatant
         var randomInt = Random.Range(0, 100);
         if (randomInt < 85)
         {
-            Immobilized = false;
+            IsImmobilized = false;
             return true;
         }
 
@@ -53,16 +53,16 @@ public abstract class Combatant
 
     // The method below attempts to implement Physical Attack equations 
     // located here: http://starmen.net/mother2/gameinfo/technical/equations.php
-    protected BattleActionResult GetPhysicalAttackResult(Combatant target, int weaponAccuracyOutOf16)
+    protected BattleActionResult GetPhysicalAttackResult(Combatant target, int accuracyOutOf16)
     {
         var hitChance = Random.Range(1, 17);
      
         if (IsDazed)
         {
-            weaponAccuracyOutOf16 = weaponAccuracyOutOf16 / 2;
+            accuracyOutOf16 = accuracyOutOf16 / 2;
         }
 
-        if (hitChance <= weaponAccuracyOutOf16)
+        if (hitChance <= accuracyOutOf16)
         {
             var smashChance = Random.Range(1, 501);
             var smashOddsOutOf500 = Mathf.Max(Guts, 25);

@@ -1,21 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
-public class WeaponItem : Item {
-	// public int accuracy;
-
-	public int IncreaseOffenseBy {get;set;}
-
-	public int IncreaseGutsBy {get;set;}
-
-	public CharacterName EquippableBy {get;set;}
-
-	// Not sure how accuracy is currently being assigned/used, but it could possibly work like this? Maybe.
-
-	// public int Accuracy
-	// {
-	// 	get { return accuracy / 16; }
-	// 	set	{ accuracy = value;	}
-	// }
+public class WeaponItem : Item 
+{
+	public WeaponItem(string itemName, ItemType itemType, int offense, int guts, int accuracy)
+	{
+        ItemName = itemName;
+        ItemType = itemType;
+        Offense = offense;
+        Guts = guts;
+        if (accuracy > 0 && accuracy <= 16)
+        { 
+            Accuracy = accuracy;
+        }
+        else
+        {
+            throw new ArgumentException("Accuracy must be between 1 and 16 inclusive.");
+        }
+    }
+	
+	public int Offense { get; }
+	public int Guts { get; }
+	public int Accuracy { get; }
+  
 }

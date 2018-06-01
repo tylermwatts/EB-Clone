@@ -15,17 +15,6 @@ public abstract class EnemyCombatant : Combatant
 
     public override BattleAction AutoFight(IEnumerable<Combatant> combatants)
     {
-        if (Immobilized)
-        {
-            return new BattleAction
-            {
-                Performer = this,
-                Target = this,
-                BattleActionType = BattleActionType.BreakImmobilization,
-                Result = AttemptToBreakImmobilization() ? BattleActionResult.Successful : BattleActionResult.Failed
-            };
-        }
-
         var randomInt = Random.Range(1,5);
 
         switch (randomInt)
