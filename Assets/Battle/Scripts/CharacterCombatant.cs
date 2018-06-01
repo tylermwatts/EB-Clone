@@ -10,15 +10,9 @@ public class CharacterCombatant : Combatant
     {
         this.characterName = characterName;
 
-        // TEST
-        Weapon = new Weapon
-        {
-            ItemName = "Cracked Bat",
-            ItemType = ItemType.Weapon,
-            Offense = 4,
-            Guts = 0,
-            Accuracy = 15
-        };
+        // START TEST
+        Weapon = new WeaponItem("Cracked Bat", ItemType.Weapon, offense: 4, guts: 0, accuracy: 15);
+        // END TEST
     }
 
     public override int Offense
@@ -39,12 +33,27 @@ public class CharacterCombatant : Combatant
         }
     }
 
-    public Weapon Weapon { get; set; }
+    public WeaponItem Weapon { get; set; }
 
     public override BattleAction AutoFight(IEnumerable<Combatant> combatants)
     {
         // TODO flesh out 
         throw new NotImplementedException();
+    }
+
+    public void ResolveAction(BattleAction action)
+    {
+        switch (action.BattleActionType)
+        {
+            case BattleActionType.Bash:
+                action.Result = GetPhysicalAttackResult(action.Target, Weapon?.Accuracy ?? 15);
+                if (action.Result == BattleActionResult.Successful || action.Result == BattleActionResult.Smash)
+                {
+                    action.Magnitude = CalculatePhysicalAttackMagnitude(action);
+                    action.Target.HitPoints -= action.Magnitude;
+                }
+                break;
+        }
     }
 
     public BattleAction Bash(EnemyCombatant enemy)
@@ -54,11 +63,8 @@ public class CharacterCombatant : Combatant
             Performer = this,
             Target = enemy,
             BattleActionType = BattleActionType.Bash,
-            ActionName = "Bash",
-            Result = GetPhysicalAttackResult(enemy, Weapon?.Accuracy ?? 15)
+            ActionName = "Bash"
         };
-
-        battleAction.Magnitude = CalculatePhysicalAttackMagnitude(battleAction);
 
         return battleAction;
     }

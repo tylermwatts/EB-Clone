@@ -22,7 +22,13 @@ public class CoilSnakeCombatant : EnemyCombatant
             Result = GetPhysicalAttackResult(target, 15)
         };
 
-        battleAction.Magnitude = CalculatePhysicalAttackMagnitude(battleAction);
+        if (battleAction.Result == BattleActionResult.Successful || battleAction.Result == BattleActionResult.Smash)
+        {
+            battleAction.Magnitude = CalculatePhysicalAttackMagnitude(battleAction);
+
+            // TODO figure out how to handle asynchronous damage to Characters
+            target.HitPoints -= battleAction.Magnitude;
+        }
 
         return battleAction;
     }
@@ -50,6 +56,8 @@ public class CoilSnakeCombatant : EnemyCombatant
             ActionName = "Coil",
             Result = BattleActionResult.Successful
         };
+
+        target.IsImmobilized = true;
 
         return battleAction;
     }
