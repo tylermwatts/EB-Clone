@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,6 +35,14 @@ public class MenuParent : MonoBehaviour {
 	public void OnInventorySelected()
     {
         invMenu.SetActive(!invMenu.activeSelf);
+		DisablePopupMenuButtons();
     }
 
+    private void DisablePopupMenuButtons()
+    {
+        foreach (var menuButton in popUpMenu.GetComponentsInChildren<Button>())
+		{
+			menuButton.enabled = false;
+		}
+    }
 }

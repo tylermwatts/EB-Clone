@@ -100,22 +100,27 @@ public class CharacterMover : MonoBehaviour
 				transform.position.z);
 		}
 
-		if (PathIsClear(potentialTarget))
+		var collider = CheckPathCollider(potentialTarget);
+
+		if (collider == null)
 		{
 			targetPosition = potentialTarget;
 		}
+		else if (collider.tag == "Door")
+		{
+			collider.GetComponent<Doorway>().NextScene();
+		}
     }
 
-	private bool PathIsClear(Vector3 target)
+	private Collider2D CheckPathCollider(Vector3 target)
     {
 		var direction = target - transform.position;
 		var distance = Vector2.Distance(transform.position, target);
+		var collider = Physics2D.Raycast(transform.position, direction, distance).collider;
 
-        return Physics2D.Raycast(
-			transform.position, 
-			direction, 
-			distance)
-			.collider == null;
+		
+
+        return collider;
     }
 	private void MoveToTarget()
     {
