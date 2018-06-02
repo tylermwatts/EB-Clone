@@ -9,6 +9,10 @@ public class InventoryManager : MonoBehaviour {
 	private int spotInParty = 0;
 	private int totalCharacters;
 
+	void Awake () {
+		DontDestroyOnLoad(this.gameObject);
+	}
+
 	// Use this for initialization
 	void Start () {
 		characters = GameObject.FindObjectsOfType<CharacterInfo>();
