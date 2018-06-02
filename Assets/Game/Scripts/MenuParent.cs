@@ -8,6 +8,7 @@ public class MenuParent : MonoBehaviour {
 
 	public GameObject popUpMenu;
 	public GameObject invMenu;
+	public GameObject statusMenu;
 
 	public bool menuIsOpen = false;
 
@@ -17,6 +18,7 @@ public class MenuParent : MonoBehaviour {
 	void Start () {
 		popUpMenu.SetActive(false);
 		invMenu.SetActive(false);
+		statusMenu.SetActive(false);
 		gameManager = FindObjectOfType<GameManager>();
 	}
 	
@@ -25,6 +27,7 @@ public class MenuParent : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.M)){
 			if (menuIsOpen){
 				invMenu.SetActive(false);
+				statusMenu.SetActive(false);
 			}
 			gameManager.paused = !gameManager.paused;
 			menuIsOpen = !menuIsOpen;
@@ -35,14 +38,21 @@ public class MenuParent : MonoBehaviour {
 	public void OnInventorySelected()
     {
         invMenu.SetActive(!invMenu.activeSelf);
-		DisablePopupMenuButtons();
+		TogglePopupMenuButtons();
     }
 
-    private void DisablePopupMenuButtons()
+	public void OnStatusSelected()
+	{
+		statusMenu.SetActive(!statusMenu.activeSelf);
+		TogglePopupMenuButtons();
+	}
+
+    private void TogglePopupMenuButtons()
     {
         foreach (var menuButton in popUpMenu.GetComponentsInChildren<Button>())
 		{
-			menuButton.enabled = false;
+			menuButton.enabled = (!menuButton.enabled);
 		}
     }
+
 }

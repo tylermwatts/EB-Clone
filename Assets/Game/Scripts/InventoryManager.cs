@@ -8,9 +8,16 @@ public class InventoryManager : MonoBehaviour {
 	private CharacterInfo[] characters;
 	private int spotInParty = 0;
 	private int totalCharacters;
+	
+	public static InventoryManager instance;
 
 	void Awake () {
-		DontDestroyOnLoad(this.gameObject);
+		if (instance == null){
+			instance = this;
+		} else if (instance != this){
+			Destroy(gameObject);
+		}
+		DontDestroyOnLoad(gameObject);
 	}
 
 	// Use this for initialization
