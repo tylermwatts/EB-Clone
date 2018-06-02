@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CharacterMover : MonoBehaviour 
 {
@@ -10,6 +11,10 @@ public class CharacterMover : MonoBehaviour
 	private Vector3 targetPosition;
 	private Animator bodyAnimator;
 	private MenuParent menuParent;
+
+	void Awake (){
+		SceneManager.sceneLoaded += OnLevelLoaded;
+	}
 
 	void Start () 
 	{
@@ -118,9 +123,7 @@ public class CharacterMover : MonoBehaviour
 		var distance = Vector2.Distance(transform.position, target);
 		var collider = Physics2D.Raycast(transform.position, direction, distance).collider;
 
-		
-
-        return collider;
+		return collider;
     }
 	private void MoveToTarget()
     {
@@ -128,7 +131,12 @@ public class CharacterMover : MonoBehaviour
 			transform.position, 
 			targetPosition, 
 			playerSpeed * Time.deltaTime);
-	
+    }
+
+	private void OnLevelLoaded (Scene scene, LoadSceneMode lsMode){
+        var spawnPoint = GameObject.Find("Spawnpoint");
+        transform.position = spawnPoint.transform.position;
+		targetPosition = spawnPoint.transform.position;
     }
 
 }

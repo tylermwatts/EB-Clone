@@ -72,7 +72,6 @@ public class CharacterInfo : MonoBehaviour {
 
     void Awake () {
         DontDestroyOnLoad(this.gameObject);
-        SceneManager.sceneLoaded += OnLevelLoaded;
     }
 
     // Use this for initialization
@@ -184,8 +183,4 @@ public class CharacterInfo : MonoBehaviour {
         }
     }
 
-    private void OnLevelLoaded (Scene scene, LoadSceneMode lsMode){
-        var spawnPoint = GameObject.Find("Spawnpoint");
-        transform.position = spawnPoint.transform.position;
-    }
 }
