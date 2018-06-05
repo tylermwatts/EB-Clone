@@ -8,7 +8,7 @@ public class BattleEnemy : MonoBehaviour, ISubmitHandler, ISelectHandler
     BattleDialogManager dialogManager;
     Battlefield battlefield;
 
-    EnemyCombatant enemy { get; set; }
+    public EnemyCombatant Enemy { get; private set; }
 
     void Start() 
 	{
@@ -19,7 +19,7 @@ public class BattleEnemy : MonoBehaviour, ISubmitHandler, ISelectHandler
 
     public void AssignEnemy(EnemyCombatant enemy)
     {
-        this.enemy = enemy;
+        Enemy = enemy;
         var image = GetComponent<Image>();
         image.overrideSprite = Resources.Load<Sprite>(enemy.BattleSpriteName);
         image.SetNativeSize();
@@ -27,13 +27,13 @@ public class BattleEnemy : MonoBehaviour, ISubmitHandler, ISelectHandler
     
     public void OnSelect(BaseEventData eventData)
     {
-        dialogManager.UpdateTargetText(enemy.Name);
+        dialogManager.UpdateTargetText(Enemy.Name);
     }
 
     public async void OnSubmit(BaseEventData eventData)
     {
         dialogManager.ResetBattleMenu();
         battlefield.DeactivateBattleEnemies();
-        await battleManager.OnEnemySelectedForBashingAsync(enemy);
+        await battleManager.OnEnemySelectedForBashingAsync(Enemy);
     }
 }

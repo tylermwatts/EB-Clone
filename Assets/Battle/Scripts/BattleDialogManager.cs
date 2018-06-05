@@ -79,4 +79,9 @@ public class BattleDialogManager : MonoBehaviour
     {
         await battleInfoBox.TypeImmobilizationUpdate(characterName, brokeImmobilization);
     }
+
+	public async Task DisplayEnemyDefeated(string enemyName)
+    {
+        await battleInfoBox.TypeEnemyDefeated(enemyName);
+    }
 }
