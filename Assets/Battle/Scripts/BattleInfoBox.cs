@@ -13,6 +13,7 @@ public class BattleInfoBox : MonoBehaviour
 	[SerializeField] string[] singleFriendPhrases = { "cohort", "friend", "buddy" };
 	[SerializeField] string[] pluralFriendPhrases = { "cohorts", "friends", "buddies" };
     [SerializeField] string[] attemptedPhrases = { "tried", "attempted" };
+	[SerializeField] string[] defeatedPhrases = { "defeated", "eliminated" };
 	Text textBox;
 	bool skipAhead;
 
@@ -136,12 +137,20 @@ public class BattleInfoBox : MonoBehaviour
 
         if (brokeImmobilization)
         {
-            await AutoTypeAsync($"{characterName} broke immobilization!");
+            await AutoTypeAsync($"{characterName} broke free!");
         }
         else
         {
             await AutoTypeAsync($"{characterName} is still immobilized.");
         }
+    }
+
+	public async Task TypeEnemyDefeated(string enemyName)
+    {
+        textBox.text = string.Empty;
+		var defeatedPhrase = defeatedPhrases[Random.Range(0, defeatedPhrases.Length)];
+		var message = $"+ You {defeatedPhrase} {enemyName}!";
+        await AutoTypeAsync(message);
     }
 
     async Task AutoTypeAsync(string message)
