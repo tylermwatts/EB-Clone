@@ -21,4 +21,5 @@ public class WeaponItem : Item
 	public int Offense { get; }
 	public int Guts { get; }
 	public int Accuracy { get; }
+  
 }

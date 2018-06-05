@@ -7,4 +7,6 @@ public class OtherItem : Item {
 	public int IncreaseDefenseBy {get;set;}
 
 	public int IncreaseLuckBy {get;set;}
+
+	public CharacterName EquippableBy {get;set;}
 }
