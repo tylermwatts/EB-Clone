@@ -17,6 +17,7 @@ public class BattleManager : MonoBehaviour
 	EnemyCombatant[] enemies = 
         {
             new CoilSnakeCombatant(),
+            new CoilSnakeCombatant(),
             new CoilSnakeCombatant()
         };
 	CharacterCombatant[] characters =  

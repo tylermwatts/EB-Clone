@@ -64,12 +64,15 @@ public abstract class Combatant
 
         if (hitChance <= accuracyOutOf16)
         {
-            var smashChance = Random.Range(1, 501);
-            var smashOddsOutOf500 = Mathf.Max(Guts, 25);
-
-            if (smashChance <= smashOddsOutOf500)
+            if (this is CharacterCombatant)
             {
-                return BattleActionResult.Smash;
+                var smashChance = Random.Range(1, 501);
+                var smashOddsOutOf500 = Mathf.Max(Guts, 25);
+
+                if (smashChance <= smashOddsOutOf500)
+                {
+                    return BattleActionResult.Smash;
+                }
             }
 
             var dodgeChance = Random.Range(1, 501);
