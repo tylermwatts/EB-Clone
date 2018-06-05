@@ -16,6 +16,8 @@ public class BattleManager : MonoBehaviour
 	// For now, hardcode enemies and characters
 	EnemyCombatant[] enemies = 
         {
+            new CoilSnakeCombatant(),
+            new CoilSnakeCombatant(),
             new CoilSnakeCombatant()
         };
 	CharacterCombatant[] characters =  
@@ -59,7 +61,7 @@ public class BattleManager : MonoBehaviour
             else
             {
                 dialogManager.ShowBattleOnlyInfoBox();
-                await ExecuteCombatantActions();
+                await ExecuteCombatantActionsAsync();
                 Reset();
                 await RunBattleAsync();
             }
@@ -76,37 +78,73 @@ public class BattleManager : MonoBehaviour
         return true;
     }
 
-    private async Task ExecuteCombatantActions()
+    private async Task ExecuteCombatantActionsAsync()
     {
         foreach (var combatant in combatants)
         {
+            if (combatant.HitPoints < 0)
+            {
+                continue;
+            }
+
             if (combatant.IsImmobilized)
             {
                 await dialogManager.DisplayImmobilizationUpdate(combatant.Name, combatant.AttemptToBreakImmobilization());
             }
 
-            // This separate if is required bc a combatant could have broken immobilization above
+            // If not immobilized, or not immobilized after break attempt
             if (!combatant.IsImmobilized)
             {
                 if (combatant is CharacterCombatant)
                 {
-                    var battleAction = battleActions.Where(ba => ba.Performer == combatant).Single();
-                    var character = (CharacterCombatant)combatant;
-                    await dialogManager.DisplayActionAttemptAsync(battleAction);
-                    character.ResolveAction(battleAction);
-                    await dialogManager.DisplayActionResultAsync(battleAction);
-                    // TODO Handle KO
+                    await ExecuteCharacterAction((CharacterCombatant)combatant);
                 }
                 else
                 {
-                    var enemy = (EnemyCombatant)combatant;
-                    var battleAction = enemy.AutoFight(combatants);
-                    await dialogManager.DisplayActionAttemptAsync(battleAction);
-                    await dialogManager.DisplayActionResultAsync(battleAction);
-                    // TODO Handle impact to character hitpoints, etc.
+                    await ExecuteEnemyAction((EnemyCombatant)combatant);
                 }
             }
         }
+    }
+
+    private async Task ExecuteCharacterAction(CharacterCombatant character)
+    {
+        var battleAction = battleActions.Find(ba => ba.Performer == character);
+
+        VerifyTarget(battleAction);
+
+        if (battleAction.Target != null)
+        {
+            await dialogManager.DisplayActionAttemptAsync(battleAction);
+            character.ResolveAction(battleAction);
+            await dialogManager.DisplayActionResultAsync(battleAction);
+
+            if (battleAction.BattleActionType == BattleActionType.Bash &&
+                battleAction.Target.HitPoints <= 0)
+            {
+                await dialogManager.DisplayEnemyDefeated(battleAction.Target.Name);
+                var battleEnemies = battlefieldGameObject.GetComponentsInChildren<BattleEnemy>().ToList();
+                var dyingEnemy = battleEnemies.Find(e => e.Enemy == battleAction.Target);
+                Destroy(dyingEnemy.gameObject);
+            }
+        }
+    }
+
+    private void VerifyTarget(BattleAction battleAction)
+    {
+        if (battleAction.BattleActionType == BattleActionType.Bash &&
+            battleAction.Target.HitPoints <= 0)
+        {
+            battleAction.Target = combatants.Find(c => c is EnemyCombatant && c.HitPoints > 0);
+        }
+    }
+
+    private async Task ExecuteEnemyAction(EnemyCombatant enemy)
+    {
+        var battleAction = enemy.AutoFight(combatants);
+        await dialogManager.DisplayActionAttemptAsync(battleAction);
+        await dialogManager.DisplayActionResultAsync(battleAction);
+        // TODO Handle impact to character hitpoints, etc.
     }
 
     private void Reset()
