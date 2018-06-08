@@ -29,7 +29,13 @@ public class CharacterInfo : MonoBehaviour {
     public PermanentStatusAilment PermStatus => permStatus;
     public CoexistingStatusAilment CoexistingStatus => coexistingStatus;
 
-    private int characterLevel, currentEXP, expToNextLevel, maxHP, maxPP, currentHP, currentPP;
+    private int characterLevel = 1;
+    private int currentEXP = 0;
+    private int expToNextLevel;
+    private int maxHP = 30;
+    private int maxPP = 10;
+    private int currentHP;
+    private int currentPP;
     private PermanentStatusAilment permStatus;
     private CoexistingStatusAilment coexistingStatus;
 
@@ -95,6 +101,8 @@ public class CharacterInfo : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        expToNextLevel = expChart.expToLevel[characterLevel-1];
+
         stats.Add(Stats.Offense, 2);
         stats.Add(Stats.Defense, 2);
         stats.Add(Stats.Speed, 2);
@@ -133,6 +141,7 @@ public class CharacterInfo : MonoBehaviour {
         int oldLevel = characterLevel;
         characterLevel++;
 		// Text.text = $"{characterName} is now level {characterLevel}!";
+        expToNextLevel = expChart.expToLevel[characterLevel-1];
 
         IncreaseStats(GetGrowthRates(), oldLevel);
     }

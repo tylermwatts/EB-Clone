@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
 
 	public bool paused = false;
-	public List <CharacterInfo> characters = new List <CharacterInfo>();
+	public Dictionary <CharacterInfo, CharacterName> characters = new Dictionary <CharacterInfo, CharacterName>();
 
 
 	void Awake(){
@@ -21,10 +22,18 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start () {
-		characters = FindObjectsOfType<CharacterInfo>().ToList();
+		FillCharacterDictionary();
 	}
-	
-	void Update (){
+
+    private void FillCharacterDictionary()
+    {
+		CharacterInfo[] chars = GameObject.FindObjectsOfType<CharacterInfo>();
+        foreach (CharacterInfo character in chars){
+			characters.Add(character, character.characterName);
+		}
+    }
+
+    void Update (){
 		if (paused){
 			Time.timeScale = 0;
 		} else {
