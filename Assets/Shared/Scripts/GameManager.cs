@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
 
 	public bool paused = false;
-	public Dictionary <CharacterInfo, CharacterName> characters = new Dictionary <CharacterInfo, CharacterName>();
+	public Dictionary <CharacterName, CharacterInfo> characters = new Dictionary <CharacterName, CharacterInfo>();
 
 
 	void Awake(){
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour {
     {
 		CharacterInfo[] chars = GameObject.FindObjectsOfType<CharacterInfo>();
         foreach (CharacterInfo character in chars){
-			characters.Add(character, character.characterName);
+			characters.Add(character.characterName, character);
 		}
     }
 

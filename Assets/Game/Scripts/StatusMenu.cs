@@ -28,7 +28,7 @@ public class StatusMenu : MonoBehaviour {
 
 	void OnEnable () {
 		gameManager = FindObjectOfType <GameManager>();
-		displayedCharacter = gameManager.characters.FirstOrDefault(x => x.Value == CharacterName.Ness).Key;
+		displayedCharacter = gameManager.characters[CharacterName.Ness];
 		FillInformation();
 	}
 

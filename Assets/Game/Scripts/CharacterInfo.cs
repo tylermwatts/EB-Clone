@@ -95,7 +95,7 @@ public class CharacterInfo : MonoBehaviour {
     }
 
     void Awake () {
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
         expToNextLevel = expChart.expToLevel[characterLevel];
     }
 
