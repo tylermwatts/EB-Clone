@@ -9,7 +9,7 @@ public class CharacterInfo : MonoBehaviour {
 
 	public List <Item> inventoryList = new List<Item>();
 	public CharacterName characterName;
-	public ExpChart expChart;
+	public ExpChart expChart = new ExpChart();
 
 	// More information on character stats https://github.com/warpfox/EB-Clone/wiki/Character-Stats
 	public int IQ => stats[Stats.IQ];
@@ -96,13 +96,11 @@ public class CharacterInfo : MonoBehaviour {
 
     void Awake () {
         DontDestroyOnLoad(this.gameObject);
+        expToNextLevel = expChart.expToLevel[characterLevel];
     }
 
     // Use this for initialization
     void Start () {
-
-        expToNextLevel = expChart.expToLevel[characterLevel-1];
-
         stats.Add(Stats.Offense, 2);
         stats.Add(Stats.Defense, 2);
         stats.Add(Stats.Speed, 2);
@@ -129,9 +127,61 @@ public class CharacterInfo : MonoBehaviour {
 		inventoryList.Add(item);
 	}
 
+    public void Heal(int health){
+        if ((currentHP + health) < maxHP)
+        {
+            currentHP += health;
+            // Text.text = $"{characterName} was healed for {health} HP!";
+        }
+        else if ((currentHP + health) >= maxHP)
+        {
+            currentHP += health;
+            if (currentHP > maxHP)
+            {
+                currentHP = maxHP;
+            }
+            // Text.text = $"{characterName}'s HP are maxed out!";
+        }
+    }
+
+    public void TakeDamage(int damage){
+        currentHP -= damage;
+        if (currentHP <= 0){
+            currentHP = 0;
+            // game the fuck over
+        }
+    }
+
+    public void RefillPP(int pp){
+        if ((currentPP + pp) < maxPP)
+        {
+            currentPP += pp;
+            // Text.text = $"{characterName}'s PP was restored by {pp} points!";
+        }
+        else if ((currentPP + pp) >= maxPP)
+        {
+            currentPP += pp;
+            if (currentPP > maxPP)
+            {
+                currentPP = maxPP;
+            }
+            // Text.text = $"{characterName}'s PP are full!";
+        }
+    }
+
+    public void UsePP(int pp){
+        if (pp > currentPP)
+        {
+            // Text.text = "Not enough PP!"
+        }
+        else if (pp <= currentPP){
+            currentPP -= pp;
+        }
+    }
+
 	public void GiveExp(int exp){
 		currentEXP += exp;
-		if (currentEXP >= expChart.expToLevel[characterLevel - 1]){
+		if (currentEXP >= expChart.expToLevel[characterLevel]){
 			LevelUp();
 		}
 	}
@@ -141,7 +191,7 @@ public class CharacterInfo : MonoBehaviour {
         int oldLevel = characterLevel;
         characterLevel++;
 		// Text.text = $"{characterName} is now level {characterLevel}!";
-        expToNextLevel = expChart.expToLevel[characterLevel-1];
+        expToNextLevel = expChart.expToLevel[characterLevel];
 
         IncreaseStats(GetGrowthRates(), oldLevel);
     }
