@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
@@ -7,8 +8,8 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
 
 	public bool paused = false;
-	public GameObject character;
-	public Transform spawnPoint;
+	public List <CharacterInfo> characters = new List <CharacterInfo>();
+
 
 	void Awake(){
 		if (instance == null){
@@ -17,6 +18,10 @@ public class GameManager : MonoBehaviour {
 			Destroy(gameObject);
 		}
 		DontDestroyOnLoad(gameObject);
+	}
+
+	void Start () {
+		characters = FindObjectsOfType<CharacterInfo>().ToList();
 	}
 	
 	void Update (){

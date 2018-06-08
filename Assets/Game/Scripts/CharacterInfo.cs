@@ -12,10 +12,28 @@ public class CharacterInfo : MonoBehaviour {
 	public ExpChart expChart;
 
 	// More information on character stats https://github.com/warpfox/EB-Clone/wiki/Character-Stats
-	[SerializeField] private int iq, guts, luck, vitality, speed, offense, defense;
-    private Dictionary <Stats, int> stats = new Dictionary <Stats, int> ();
+	public int IQ => stats[Stats.IQ];
+    public int Guts => stats[Stats.Guts];
+    public int Luck => stats[Stats.Luck];
+    public int Vitality => stats[Stats.Vitality];
+    public int Speed => stats[Stats.Speed];
+    public int Offense => stats[Stats.Offense];
+    public int Defense => stats[Stats.Defense];
+    public int CharacterLevel => characterLevel;
+    public int CurrentHitPoints => currentHP;
+    public int MaxHitPoints => maxHP;
+    public int CurrentPsychicPoints => currentPP;
+    public int MaxPsychicPoints => maxPP;
+    public int CurrentEXP => currentEXP;
+    public int ExpToNextLevel => expToNextLevel;
+    public PermanentStatusAilment PermStatus => permStatus;
+    public CoexistingStatusAilment CoexistingStatus => coexistingStatus;
 
-	[SerializeField] private int characterLevel, currentEXP, maxHP, maxPP, currentHP, currentPP;
+    private int characterLevel, currentEXP, expToNextLevel, maxHP, maxPP, currentHP, currentPP;
+    private PermanentStatusAilment permStatus;
+    private CoexistingStatusAilment coexistingStatus;
+
+    private Dictionary <Stats, int> stats = new Dictionary <Stats, int> ();
     
     private Dictionary <Stats, int> GetGrowthRates()
     {
@@ -77,13 +95,15 @@ public class CharacterInfo : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        stats.Add(Stats.Offense, offense);
-        stats.Add(Stats.Defense, defense);
-        stats.Add(Stats.Speed, speed);
-        stats.Add(Stats.Guts, guts);
-        stats.Add(Stats.Luck, luck);
-        stats.Add(Stats.Vitality, vitality);
-        stats.Add(Stats.IQ, iq);
+        stats.Add(Stats.Offense, 2);
+        stats.Add(Stats.Defense, 2);
+        stats.Add(Stats.Speed, 2);
+        stats.Add(Stats.Guts, 2);
+        stats.Add(Stats.Luck, 2);
+        stats.Add(Stats.Vitality, 2);
+        stats.Add(Stats.IQ, 2);
+        maxHP = 30;
+        maxPP = 10;
 
 		// Testing adding items to inventory
         var items = new List<Item>

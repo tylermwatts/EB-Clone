@@ -135,8 +135,9 @@ public class CharacterMover : MonoBehaviour
 
 	private void OnLevelLoaded (Scene scene, LoadSceneMode lsMode){
         var spawnPoint = GameObject.Find("Spawnpoint");
+		var entryPoint = GameObject.Find("Entrypoint");
         transform.position = spawnPoint.transform.position;
-		targetPosition = spawnPoint.transform.position;
+		targetPosition = entryPoint.transform.position;
     }
 
 }

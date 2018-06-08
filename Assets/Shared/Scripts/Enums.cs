@@ -38,7 +38,8 @@ public enum CharacterName
 };
 
 public enum PermanentStatusAilment 
-{ 
+{
+    Normal, 
     Unconscious, 
     Diamondized, 
     Paralyzed, 
@@ -56,15 +57,9 @@ public enum InBattleStatusAilment
     Solidified 
 }
 
-// We may not get to a point where we use these, but I'm putting them in here just in case
-public enum SpecialStatusAilment 
-{ 
-    Mushroomed, 
-    Possessed 
-}
-
 public enum CoexistingStatusAilment 
-{ 
+{
+    Normal, 
     FeelingStrange, 
     UnableToConcentrate, 
     Homesick 
