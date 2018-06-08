@@ -12,7 +12,7 @@ public class CharacterInfo : MonoBehaviour {
 	public ExpChart expChart = new ExpChart();
 
 	// More information on character stats https://github.com/warpfox/EB-Clone/wiki/Character-Stats
-	public int IQ => stats[Stats.IQ];
+    public int IQ => stats[Stats.IQ];
     public int Guts => stats[Stats.Guts];
     public int Luck => stats[Stats.Luck];
     public int Vitality => stats[Stats.Vitality];
@@ -109,7 +109,9 @@ public class CharacterInfo : MonoBehaviour {
         stats.Add(Stats.Vitality, 2);
         stats.Add(Stats.IQ, 2);
         maxHP = 30;
+        currentHP = 30;
         maxPP = 10;
+        currentPP = 10;
 
 		// Testing adding items to inventory
         var items = new List<Item>
