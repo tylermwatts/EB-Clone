@@ -6,7 +6,7 @@ public class Menu : MonoBehaviour
 {
 	void OnEnable() 
 	{
-		//ActivateButtons();
+		ActivateButtons();
 	}
 
 	public void ActivateButtons()
