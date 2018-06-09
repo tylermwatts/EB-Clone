@@ -21,13 +21,11 @@ public class StatusMenu : MonoBehaviour {
 	[SerializeField] private Text expPoints;
 	[SerializeField] private Text statusCondition;
 	[SerializeField] private Text expToNextLevel;
-
-	private GameManager gameManager;
+	[SerializeField] private GameManager gameManager;
 	private CharacterInfo displayedCharacter;
 
 
 	void OnEnable () {
-		gameManager = FindObjectOfType <GameManager>();
 		displayedCharacter = gameManager.characters[CharacterName.Ness];
 		FillInformation();
 	}

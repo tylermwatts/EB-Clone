@@ -18939,6 +18939,7 @@ GameObject:
   m_Component:
   - component: {fileID: 621842760}
   - component: {fileID: 621842759}
+  - component: {fileID: 621842761}
   m_Layer: 8
   m_Name: NessInfo
   m_TagString: Untagged
@@ -18971,6 +18972,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &621842761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 621842758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c6a392c3fdbd640a668eef2d33e3ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &622923893
 GameObject:
   m_ObjectHideFlags: 0
@@ -29480,6 +29492,7 @@ MonoBehaviour:
   expPoints: {fileID: 1623462696}
   statusCondition: {fileID: 309580714}
   expToNextLevel: {fileID: 1473882234}
+  gameManager: {fileID: 736983279}
 --- !u!114 &910152366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39053,6 +39066,33 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &1200410679 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1388014071514394, guid: 4ba8ad6b92762c645ac1e8cf07a81550,
+    type: 2}
+  m_PrefabInternal: {fileID: 337268059}
+--- !u!114 &1200410680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1200410679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c6a392c3fdbd640a668eef2d33e3ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1200410681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1200410679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c6a392c3fdbd640a668eef2d33e3ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1204451901
 GameObject:
   m_ObjectHideFlags: 0

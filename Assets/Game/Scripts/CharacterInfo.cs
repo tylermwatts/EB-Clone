@@ -95,7 +95,7 @@ public class CharacterInfo : MonoBehaviour {
     }
 
     void Awake () {
-        DontDestroyOnLoad(gameObject);
+		DontDestroyOnLoad(gameObject);
         expToNextLevel = expChart.expToLevel[characterLevel];
     }
 
@@ -112,6 +112,8 @@ public class CharacterInfo : MonoBehaviour {
         currentHP = 30;
         maxPP = 10;
         currentPP = 10;
+        coexistingStatus = CoexistingStatusAilment.Normal;
+        permStatus = PermanentStatusAilment.Normal;
 
 		// Testing adding items to inventory
         var items = new List<Item>
