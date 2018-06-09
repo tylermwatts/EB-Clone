@@ -10206,15 +10206,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4861486042586902, guid: 4ba8ad6b92762c645ac1e8cf07a81550, type: 2}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4861486042586902, guid: 4ba8ad6b92762c645ac1e8cf07a81550, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4861486042586902, guid: 4ba8ad6b92762c645ac1e8cf07a81550, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4861486042586902, guid: 4ba8ad6b92762c645ac1e8cf07a81550, type: 2}
       propertyPath: m_LocalRotation.w
@@ -10224,7 +10224,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114155845592952790, guid: 4ba8ad6b92762c645ac1e8cf07a81550, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 4ba8ad6b92762c645ac1e8cf07a81550, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &338920904
@@ -18929,6 +18930,47 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &621842758
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 621842760}
+  - component: {fileID: 621842759}
+  m_Layer: 8
+  m_Name: NessInfo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &621842759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 621842758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 975ba9a315995d14884242d61406f8e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: 1
+--- !u!4 &621842760
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 621842758}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &622923893
 GameObject:
   m_ObjectHideFlags: 0
@@ -23949,6 +23991,12 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &736983279 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114390643321570642, guid: df3109566eb19804a9b73e2d3e0112eb,
+    type: 2}
+  m_PrefabInternal: {fileID: 537473784}
+  m_Script: {fileID: 11500000, guid: d589e827e2d614049a2991c5da223609, type: 3}
 --- !u!1 &739931815
 GameObject:
   m_ObjectHideFlags: 0
@@ -34349,6 +34397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invButtonPrefab: {fileID: 1790280054943152, guid: db508e960a0e7c2448b7be96020cea92,
     type: 2}
+  gameManager: {fileID: 736983279}
 --- !u!114 &1061747031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43776,6 +43825,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114446463712780736, guid: bea6765df6f91ca42b7d0a6c5061e2ec,
+        type: 2}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 736983279}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bea6765df6f91ca42b7d0a6c5061e2ec, type: 2}
   m_IsPrefabParent: 0

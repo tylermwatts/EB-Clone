@@ -5,9 +5,11 @@ using System.Linq;
 
 public class InventoryManager : MonoBehaviour {
 
-	private CharacterInfo[] characters;
+	private List <CharacterInfo> characters = new List <CharacterInfo>();
 	private int spotInParty = 0;
 	private int totalCharacters;
+	[SerializeField]
+	private GameManager gameManager;
 	
 	public static InventoryManager instance;
 
@@ -22,8 +24,8 @@ public class InventoryManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		characters = GameObject.FindObjectsOfType<CharacterInfo>();
-		totalCharacters = characters.Length;
+		characters = gameManager.characters.Values.ToList();
+		totalCharacters = characters.Count();
 	}
 	
 	public void GiveItem(Item item){

@@ -8,7 +8,10 @@ public class InventoryList : MonoBehaviour {
 	public GameObject invButtonPrefab;
 	
 	private Menu menu;
-	private CharacterInfo player1;
+
+	[SerializeField]
+	private GameManager gameManager;
+
 
 	void OnEnable(){
 		menu = GetComponent<Menu>();
@@ -16,7 +19,6 @@ public class InventoryList : MonoBehaviour {
 	}
 
 	void Start(){
-		player1 = GameObject.FindObjectOfType<CharacterInfo>();
 		PopulateInventoryText();
 	}
 
@@ -27,7 +29,8 @@ public class InventoryList : MonoBehaviour {
 
     private void PopulateInventoryText()
     {
-		foreach (Item item in player1.inventoryList)
+		CharacterInfo displayedCharacter = gameManager.characters[CharacterName.Ness];
+		foreach (Item item in displayedCharacter.inventoryList)
         {
 			var inventoryItem = Instantiate <GameObject>(invButtonPrefab);
 			inventoryItem.transform.SetParent(transform, false);

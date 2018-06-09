@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CharacterMover : MonoBehaviour 
+public class CharacterMover : MonoBehaviour
 {
 	public float playerSpeed = 5.0f;
 
