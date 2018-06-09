@@ -7,10 +7,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
-
 	public bool paused = false;
 	public Dictionary <CharacterName, CharacterInfo> characters = new Dictionary <CharacterName, CharacterInfo>();
-
 
 	void Awake(){
 		if (instance == null){
